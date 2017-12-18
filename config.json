@@ -1,0 +1,15 @@
+{
+    "bitbucket": {
+        "clientId": "clientId",
+        "clientSecret": "clientSecret",
+        "accessToken": "accessToken",
+        "refreshToken": "refreshToken"
+    },
+    "gmail": {
+        "user": "user",
+        "clientId": "clientId",
+        "clientSecret": "clientSecret",
+        "accessToken": "accessToken",
+        "refreshToken": "refreshToken"
+    }
+}

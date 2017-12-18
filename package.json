@@ -1,5 +1,5 @@
 {
-    "name": "bitbucket-notification",
+    "name": "bitbucket-notifications",
     "version": "1.0.0",
     "description": "Application which is intended to work with bitbucket and can fetch all PRs which are merged and send an email using Gmail. All authentications are done with OAuth2",
     "main": "index.js",
@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Vali0/bitbucket-notification"
+        "url": "https://github.com/Vali0/bitbucket-notifications"
     },
     "keywords": [
         "bitbucket",
