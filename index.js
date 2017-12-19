@@ -1,7 +1,7 @@
 function BitbucketNotifications() {
     'use strict';
 
-    const configuration = require('./config');
+    const configuration = require('/config');
     const Client = require('./lib/Client');
     const Gmail = require('./lib/Gmail');
 
@@ -17,8 +17,8 @@ function BitbucketNotifications() {
     var gmail = new Gmail(configuration.gmail.user, configuration.gmail.clientId, configuration.gmail.clientSecret, configuration.gmail.refreshToken);
 
     return {
-    	bitbucketClient: client,
-    	gmail: gmail
+        bitbucketClient: client,
+        gmail: gmail
     };
 }
 
