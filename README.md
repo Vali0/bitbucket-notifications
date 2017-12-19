@@ -1,5 +1,4 @@
 # bitbucket-notifications
-[![NPM](https://nodei.co/npm/bitbucket-notifications.png)](https://nodei.co/npm/bitbucket-notifications/)
 [![NPM](https://nodei.co/npm/bitbucket-notifications.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/bitbucket-notifications/)
 
 # Description
