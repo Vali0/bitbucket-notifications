@@ -1,4 +1,4 @@
-function BitbucketNotifications() {
+function bitbucketNotifications() {
     'use strict';
 
     const config = require('config');
@@ -7,11 +7,13 @@ function BitbucketNotifications() {
     const Client = require('./lib/Client');
     const Gmail = require('./lib/Gmail');
 
-    if (!(bitbucketConfig.clientId && bitbucketConfig.clientSecret && bitbucketConfig.accessToken && bitbucketConfig.refreshToken)) {
+    // No need to check for access token as it expires
+    if (!(bitbucketConfig.clientId && bitbucketConfig.clientSecret && bitbucketConfig.refreshToken)) {
         throw new Error('Missing OAuth2 configuration for bitbucket in config.json');
     }
 
-    if (!(gmailConfig.user && gmailConfig.clientId && gmailConfig.clientSecret && gmailConfig.accessToken && gmailConfig.refreshToken)) {
+    // No need to check for access token as it expires
+    if (!(gmailConfig.user && gmailConfig.clientId && gmailConfig.clientSecret && gmailConfig.refreshToken)) {
         throw new Error('Missing OAuth2 configuration for gmail configuration.gmail.clientSecret');
     }
 
@@ -24,7 +26,4 @@ function BitbucketNotifications() {
     };
 }
 
-// var test = BitbucketNotifications();
-// console.log(test);
-
-exports.BitbucketNotifications = BitbucketNotifications;
+module.exports = bitbucketNotifications;
