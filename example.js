@@ -1,8 +1,8 @@
 const moment = require('moment');
+const bbnotify = require('bitbucket-notifications');
 
-var bbnotify = require('bitbucket-notifications');
-var client = bbnotify.bitbucketClient;
-var gmail = bbnotify.gmail;
+let client = bbnotify.bitbucketClient;
+let gmail = bbnotify.gmail;
 
 client.obtainTokens()
     .then(() => {
