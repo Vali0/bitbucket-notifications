@@ -22,6 +22,7 @@
     "author": "Valentin Radev",
     "license": "MIT",
     "dependencies": {
+        "config": "^1.28.1",
         "moment": "^2.19.4",
         "nodemailer": "^4.4.1",
         "request": "^2.83.0",
