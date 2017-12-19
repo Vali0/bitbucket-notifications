@@ -1,4 +1,4 @@
-function bitbucketNotifications() {
+var bitbucketNotifications = (function() {
     'use strict';
 
     const config = require('config');
@@ -18,12 +18,12 @@ function bitbucketNotifications() {
     }
 
     var client = new Client(bitbucketConfig.clientId, bitbucketConfig.clientSecret, bitbucketConfig.accessToken, bitbucketConfig.refreshToken);
-    var gmail = new Gmail(gmailConfig.user, gmailConfig.clientId, gmailConfig.clientSecret, gmailConfig.refreshToken);
+    var gmail = new Gmail(gmailConfig.user, gmailConfig.clientId, gmailConfig.clientSecret, gmailConfig.accessToken, gmailConfig.refreshToken);
 
     return {
         bitbucketClient: client,
         gmail: gmail
     };
-}
+}());
 
 module.exports = bitbucketNotifications;
