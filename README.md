@@ -43,6 +43,12 @@ In order to setup this module you have to do following steps
 * request - OAuth2 and API requests
 * request-promise
 
+# Roadmap
+* Get all emails from bitbucket group assigned to given project and send email to them instead of hardcoding them in index file
+* Get merged PRs based on the release branch you are running this build
+* Add links to jira when fetch PRs
+* Add functions description in README
+
 # Known issues
 * All TODO across the code
 * PullRequests.getPullRequests do not refer to client.refreshTokens()
