@@ -17,7 +17,7 @@ client.obtainTokens()
         });
     })
     .then(pullRequestsList => {
-        if (pullRequestsList.length) {
+        if (Object.keys(pullRequestsList).length) {
             let sender = 'jane.doe@gmail.com';
             let recipientsObject = {
                 to: ['john.doe@gmail.com'],
@@ -25,9 +25,8 @@ client.obtainTokens()
                 bcc: ['john.doe3@gmail.com']
             };
             let subject = 'Merged pull requests in last 24h';
-            let content = 'Released tickets titles\n' + pullRequestsList.join('\n');
 
-            gmail.sendEmail(sender, recipientsObject, subject, content);
+            gmail.sendEmail(sender, recipientsObject, subject, JSON.stringify(pullRequestsList));
         }
     })
     .catch(function(err) {
