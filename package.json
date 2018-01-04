@@ -23,6 +23,7 @@
     "license": "MIT",
     "dependencies": {
         "config": "^1.28.1",
+        "handlebars": "^4.0.11",
         "moment": "^2.19.4",
         "nodemailer": "^4.4.1",
         "request": "^2.83.0",

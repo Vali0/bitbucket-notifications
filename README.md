@@ -38,14 +38,14 @@ In order to setup this module you have to do following steps
 
 # Dependancies
 * config - used for OAuth2 configuration
-* moment - used in example
+* moment - used in example to fetch pull requests
+* handlebars - used in example to generate email template
 * nodemailer - used for Gmail
 * request - OAuth2 and API requests
 * request-promise
 
 # Roadmap
 * Get all emails from bitbucket group assigned to given project and send email to them instead of hardcoding them in index file
-* Get merged PRs based on the release branch you are running this build
 * Add links to jira when fetch PRs
 * Add functions description in README
 
