@@ -28,6 +28,9 @@ In order to setup this module you have to do following steps
         "clientSecret": "clientSecret",
         "accessToken": "accessToken",
         "refreshToken": "refreshToken"
+    },
+    "jira": {
+        "domain": "domain"
     }
 }
 ```
