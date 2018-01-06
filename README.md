@@ -49,9 +49,9 @@ In order to setup this module you have to do following steps
 * request-promise
 
 # Roadmap
-* Get all emails from bitbucket group assigned to given project and send email to them instead of hardcoding them in index file
-* Add links to jira when fetch PRs
+* Implement jira OAuth2 authentication
 * Add functions description in README
+* Get all emails from bitbucket group assigned to given project and send email to them instead of hardcoding them in index file
 
 # Known issues
 * All TODO across the code
