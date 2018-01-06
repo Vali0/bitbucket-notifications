@@ -2,8 +2,9 @@ const moment = require('moment');
 const handlebars = require('handlebars');
 const bbnotify = require('bitbucket-notifications');
 
-let client = bbnotify.bitbucketClient;
+let client = bbnotify.bitbucket;
 let gmail = bbnotify.gmail;
+let jira = bbnotify.jira;
 
 let template = `<table style="border:1px solid #999" cellspacing="0" cellpadding="0">
                     <thead>
@@ -22,7 +23,7 @@ let template = `<table style="border:1px solid #999" cellspacing="0" cellpadding
 
                             <td style="padding-left: 5px;">
                                 {{#each this}}
-                                        <p>{{this}}</p>
+                                        <p><a href="{{this.href}}">{{this.title}}</a></p>
                                 {{/each}}
                             </td>
 
@@ -34,7 +35,11 @@ let template = `<table style="border:1px solid #999" cellspacing="0" cellpadding
 
 client.obtainTokens()
     .then(() => {
-        let pullRequests = client.pullRequests('username', 'repo-slug');
+        let pullRequests = client.pullRequests('username', 'repo-slug' {
+            jira: jira,
+            addJiraLinks: true,
+            regExp: /[a-zA-Z]+-[0-9]+/
+        });
         let state = '"MERGED"';
         let updatedOn = moment().subtract(1, 'day').format();
         let queryString = `state=${state} AND updated_on>=${updatedOn}`;

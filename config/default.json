@@ -1,15 +1,18 @@
 {
     "bitbucket": {
-        "clientId": "clientId",
-        "clientSecret": "clientSecret",
-        "accessToken": "accessToken",
-        "refreshToken": "refreshToken"
+        "clientId": "",
+        "clientSecret": "",
+        "accessToken": "",
+        "refreshToken": ""
     },
     "gmail": {
-        "user": "user",
-        "clientId": "clientId",
-        "clientSecret": "clientSecret",
-        "accessToken": "accessToken",
-        "refreshToken": "refreshToken"
+        "user": "",
+        "clientId": "",
+        "clientSecret": "",
+        "accessToken": "",
+        "refreshToken": ""
+    },
+    "jira": {
+        "domain": ""
     }
 }

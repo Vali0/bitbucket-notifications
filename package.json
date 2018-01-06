@@ -1,7 +1,7 @@
 {
     "name": "bitbucket-notifications",
-    "version": "1.0.5",
-    "description": "Application which is intended to work with bitbucket and can fetch all PRs which are merged and send an email using Gmail. All authentications are done with OAuth2. Perfect for automated build processes",
+    "version": "1.0.6",
+    "description": "Application which is intended to work with bitbucket and can fetch all PRs which are merged and send an email via Gmail. All authentications are done with OAuth2. Perfect for automated build processes",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +17,10 @@
         "nodejs",
         "node",
         "nodemailer",
-        "OAuth2"
+        "OAuth2",
+        "jira",
+        "push notifications",
+        "javascript"
     ],
     "author": "Valentin Radev",
     "license": "MIT",
