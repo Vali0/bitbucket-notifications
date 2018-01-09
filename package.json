@@ -1,7 +1,7 @@
 {
     "name": "bitbucket-notifications",
     "version": "1.0.8",
-    "description": "Application which is intended to work with bitbucket and can fetch all PRs which are merged and send an email via Gmail. All authentications are done with OAuth2. Perfect for automated build processes",
+    "description": "Node.js application which can send an email with links to all PRs that have been merged in last 24 hours. It connects to Bitbucket, Gmail and Jira with OAuth2 for higher security by simply adding your credentials in configuration file.",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"

@@ -2,7 +2,7 @@ var bitbucketNotifications = (function() {
     'use strict';
 
     const config = require('config');
-    
+
     const bitbucketConfig = config.get('bitbucket');
     const gmailConfig = config.get('gmail');
     const jiraConfig = config.get('jira');
@@ -24,7 +24,7 @@ var bitbucketNotifications = (function() {
     var bitbucket = new Bitbucket(bitbucketConfig.clientId, bitbucketConfig.clientSecret, bitbucketConfig.accessToken, bitbucketConfig.refreshToken);
     var gmail = new Gmail(gmailConfig.user, gmailConfig.clientId, gmailConfig.clientSecret, gmailConfig.accessToken, gmailConfig.refreshToken);
     var jira = new Jira(jiraConfig.domain);
-    
+
     return {
         bitbucket: bitbucket,
         gmail: gmail,

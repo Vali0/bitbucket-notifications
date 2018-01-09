@@ -35,7 +35,7 @@ let template = `<table style="border:1px solid #999" cellspacing="0" cellpadding
 
 client.obtainTokens()
     .then(() => {
-        let pullRequests = client.pullRequests('username', 'repo-slug' {
+        let pullRequests = client.pullRequests('username', 'repo-slug', {
             jira: jira,
             addJiraLinks: true,
             regExp: /[a-zA-Z]+-[0-9]+/

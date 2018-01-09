@@ -52,6 +52,7 @@ In order to setup this module you have to do following steps
 * Implement jira OAuth2 authentication
 * Add functions description in README
 * Get all emails from bitbucket group assigned to given project and send email to them instead of hardcoding them in index file
+* Fill up releases(set fix version to a ticket) automatically
 
 # Known issues
 * All TODO across the code
