@@ -41,13 +41,11 @@ In order to setup this module you have to do following steps
 
 ### For complete example please check examples folder in GitHub
 
-# Dependancies
+# Dependencies
 * `config` - used for OAuth2 configuration. Client ids, client secrets, access and refresh tokens
 * `nodemailer` - used to send emails with Gmail
 * `request` - OAuth2 and API requests
 * `request-promise` - OAuth2 and API requests
-
-# DevDependancies - All dev dependancies are used in examples. They are not part of application dependancies
 * `moment` - used in example to fetch pull requests 24h hours behind in ISO-8601 format
 * `handlebars` - used in example to generate email template for given context
 
