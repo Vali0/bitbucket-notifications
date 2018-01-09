@@ -11,25 +11,27 @@
         "url": "https://github.com/Vali0/bitbucket-notifications"
     },
     "keywords": [
-        "bitbucket",
-        "notifications",
         "gmail",
-        "nodejs",
-        "node",
-        "nodemailer",
-        "OAuth2",
+        "bitbucket",
         "jira",
         "push notifications",
-        "javascript"
+        "notifications",
+        "nodejs",
+        "node",
+        "javascript",
+        "nodemailer",
+        "OAuth2"
     ],
     "author": "Valentin Radev",
     "license": "MIT",
     "dependencies": {
         "config": "^1.28.1",
-        "handlebars": "^4.0.11",
-        "moment": "^2.19.4",
         "nodemailer": "^4.4.1",
         "request": "^2.83.0",
         "request-promise": "^4.2.2"
+    },
+    "devDependencies": {
+        "handlebars": "^4.0.11",
+        "moment": "^2.20.1"
     }
 }

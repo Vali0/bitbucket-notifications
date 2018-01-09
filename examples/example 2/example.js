@@ -1,3 +1,5 @@
+// This example shows how to get all merged PRs in last 24h and sends them to given email list without linking them to Jira
+
 const moment = require('moment');
 const handlebars = require('handlebars');
 const bbnotify = require('bitbucket-notifications');
@@ -35,11 +37,7 @@ let template = `<table style="border:1px solid #999" cellspacing="0" cellpadding
 
 client.obtainTokens()
     .then(() => {
-        let pullRequests = client.pullRequests('username', 'repo-slug', {
-            jira: jira,
-            addJiraLinks: true,
-            regExp: /[a-zA-Z]+-[0-9]+/
-        });
+        let pullRequests = client.pullRequests('username', 'repo-slug');
         let state = '"MERGED"';
         let updatedOn = moment().subtract(1, 'day').format();
         let queryString = `state=${state} AND updated_on>=${updatedOn}`;
