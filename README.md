@@ -34,24 +34,27 @@ In order to setup this module you have to do following steps
     }
 }
 ```
+* In your project create a starting javascript file and config folder so you have the structure from examples
 * Replace clientId, secret, access token and refresh token. Bitbucket allow you to obtain tokens without client confirmation. To do this you can use client.obtainTokens(). Despite Google services where you must consent rights. So you have to manualy obtain your refresh token by calling Google OAuth2
 * in your index.js type `var bbnotify = require('bitbucket-notifications');`. This will return an object with bitbucket and gmail client
 * You are ready to go!
 
-### For complete example you can check example.js and config/default.json GitHub
+### For complete example please check examples folder in GitHub
 
 # Dependancies
-* config - used for OAuth2 configuration
-* moment - used in example to fetch pull requests
-* handlebars - used in example to generate email template
-* nodemailer - used for Gmail
-* request - OAuth2 and API requests
-* request-promise
+* `config` - used for OAuth2 configuration. Client ids, client secrets, access and refresh tokens
+* `nodemailer` - used to send emails with Gmail
+* `request` - OAuth2 and API requests
+* `request-promise` - OAuth2 and API requests
+
+# DevDependancies - All dev dependancies are used in examples. They are not part of application dependancies
+* `moment` - used in example to fetch pull requests 24h hours behind in ISO-8601 format
+* `handlebars` - used in example to generate email template for given context
 
 # Roadmap
 * Implement jira OAuth2 authentication
 * Add functions description in README
-* Get all emails from bitbucket group assigned to given project and send email to them instead of hardcoding them in index file
+* Setup mocha, chai, istanbul and write unit tests
 * Fill up releases(set fix version to a ticket) automatically
 
 # Known issues
