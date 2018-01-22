@@ -13,16 +13,18 @@ let template = `<table cellspacing="0" cellpadding="10" style="border-collapse: 
                     <thead>
                         <tr>
                             <th colspan="2" style="font-family: Arial, Helvetica, sans-serif;font-size: 19px;text-align: left;background: #666;border: 1px solid #666;color: #fff;">
+                                {{@key}}
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each this}}
                         <tr>
                             <td style="font-family: Arial, Helvetica, sans-serif;border: 1px solid #999;text-align: left;" valign="top">
-                                {{@key}}
+                                <a href="{{this.href}}">{{this.id}}</a>
                             </td>
                             <td style="font-family: Arial, Helvetica, sans-serif;border: 1px solid #999;text-align: left;" valign="top">
-                                <a href="{{this.href}}">{{this.title}}</a>
+                                <a href="{{this.prHref}}">{{this.title}}</a>
                             </td>
                         </tr>
                         {{/each}}
