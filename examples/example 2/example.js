@@ -8,30 +8,34 @@ let client = bbnotify.bitbucket;
 let gmail = bbnotify.gmail;
 let jira = bbnotify.jira;
 
-let template = `<table style="border:1px solid #999" cellspacing="0" cellpadding="0">
+let template = `<table cellspacing="0" cellpadding="10" style="border-collapse: collapse;font-family: Arial, Helvetica, sans-serif;border: 1px solid #999;text-align: left;">
+                    {{#each this}}
                     <thead>
                         <tr>
-                            <th style="border-right: 1px solid #999; border-bottom: 1px solid #999; padding: 5px 10px;" align="left">Target branch</th>
-                            <th style="border-bottom: 1px solid #999; padding: 5px 10px;" align="left">Branches</th>
+                            <th colspan="2" style="font-family: Arial, Helvetica, sans-serif;font-size: 19px;text-align: left;background: #666;border: 1px solid #666;color: #fff;">
+                                {{@key}}
+                            </th>
+                            <th style="font-family: Arial, Helvetica, sans-serif;font-size: 19px;text-align: left;background: #666;border: 1px solid #666;color: #fff;">
+                                Author
+                            </th>
                         </tr>
                     </thead>
-
                     <tbody>
                         {{#each this}}
                         <tr>
-                            <td style="border-right: 1px solid #999; padding: 5px 10px;" valign="top">
-                                {{@key}}
+                            <td style="font-family: Arial, Helvetica, sans-serif;border: 1px solid #999;text-align: left;" valign="top">
+                                <a href="{{this.jiraUrl}}">{{this.id}}</a>
                             </td>
-
-                            <td style="padding-left: 5px;">
-                                {{#each this}}
-                                        <p><a href="{{this.href}}">{{this.title}}</a></p>
-                                {{/each}}
+                            <td style="font-family: Arial, Helvetica, sans-serif;border: 1px solid #999;text-align: left;" valign="top">
+                                <a href="{{this.prUrl}}">{{this.title}}</a>
                             </td>
-
+                            <td style="font-family: Arial, Helvetica, sans-serif;border: 1px solid #999;text-align: left;" valign="top">
+                                <a href="{{this.author.account}}">{{this.author.displayName}}</a>
+                            </td>
                         </tr>
                         {{/each}}
                     </tbody>
+                    {{/each}}
 
                 </table>`;
 
