@@ -50,9 +50,9 @@ In order to setup this module you have to do following steps
 * `handlebars` - used in example to generate email template for given context
 
 # Roadmap
-* Implement jira OAuth2 authentication
+* Implement jira authentication
 * Add functions description in README
-* Setup mocha, chai, istanbul and write unit tests
+* Setup unit tests
 * Fill up releases(set fix version to a ticket) automatically
 
 # Known issues
