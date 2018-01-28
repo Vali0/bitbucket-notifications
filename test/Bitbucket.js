@@ -1,9 +1,8 @@
 var expect = require('chai').expect;
-var Bitbucket = require('../lib/Bitbucket');
 
 describe('Bitbucket', function() {
-  describe('constructor', function() {
-    let clientId,
+    let Bitbucket = require('../lib/Bitbucket'),
+        clientId,
         clientSecret,
         accessToken,
         refreshToken;
@@ -15,7 +14,8 @@ describe('Bitbucket', function() {
         refreshToken = 'refreshToken';
     });
 
-    it('it should throw an error if client id is missing', function() {
+  describe('constructor', function() {
+    it('should throw an error if client id is missing', function() {
         // arrange
 
         // act
@@ -25,7 +25,7 @@ describe('Bitbucket', function() {
         expect(client).to.throw('Client id is missing');
     });
 
-    it('it should throw an error if client secret is missing', function() {
+    it('should throw an error if client secret is missing', function() {
         // arrange
 
         // act
@@ -35,7 +35,7 @@ describe('Bitbucket', function() {
         expect(client).to.throw('Client secret is missing');
     });
 
-    it('it should throw an error if access token is missing', function() {
+    it('should throw an error if access token is missing', function() {
         // arrange
 
         // act
@@ -45,7 +45,7 @@ describe('Bitbucket', function() {
         expect(client).to.throw('Access token is missing');
     });
 
-    it('it should throw an error if refresh token is missing', function() {
+    it('should throw an error if refresh token is missing', function() {
         // arrange
 
         // act
@@ -55,7 +55,7 @@ describe('Bitbucket', function() {
         expect(client).to.throw('Refresh token is missing');
     });
 
-    it('it should return bitbucket instance if all parameters are passed correctly', function() {
+    it('should return bitbucket instance if all parameters are passed correctly', function() {
         // arrange
 
         // act
