@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/Vali0/bitbucket-notifications.svg?branch=master)](https://travis-ci.org/Vali0/bitbucket-notifications)
 [![dependencies Status](https://david-dm.org/Vali0/bitbucket-notifications/status.svg)](https://david-dm.org/Vali0/bitbucket-notifications)
 [![Known Vulnerabilities](https://snyk.io/test/npm/bitbucket-notifications/badge.svg)](https://snyk.io/test/npm/bitbucket-notifications)
+[![Coverage Status](https://coveralls.io/repos/github/Vali0/bitbucket-notifications/badge.svg?branch=master)](https://coveralls.io/github/Vali0/bitbucket-notifications?branch=master)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/bitbucket-notifications)
 
 # Description
@@ -57,11 +58,9 @@ In order to setup this module you have to do following steps
 # Roadmap
 * Implement jira authentication
 * Add functions description in README
-* Setup unit tests
 * Fill up releases(set fix version to a ticket) automatically
 
 # Known issues
 * All TODO across the code
 * PullRequests.getPullRequests do not refer to client.refreshTokens()
 * Tokens do not update automatically in config json
-* Nodemailer access token refresh for gmail
