@@ -71,6 +71,10 @@ describe('Bitbucket', function() {
 
             // assert
             expect(client).to.be.ok;
+            expect(client.id).to.equal(clientId);
+            expect(client.secret).to.equal(clientSecret);
+            expect(client.accessToken).to.equal(accessToken);
+            expect(client.refreshToken).to.equal(refreshToken);
             expect(client).to.eql({
                 _id: 'clientId',
                 _secret: 'clientSecret',
