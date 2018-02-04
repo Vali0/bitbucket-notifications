@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "test": "mocha",
-        "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+        "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+        "devCoverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
     },
     "repository": {
         "type": "git",
@@ -38,6 +39,9 @@
         "coveralls": "^3.0.0",
         "istanbul": "^0.4.5",
         "mocha": "^5.0.0",
-        "mocha-lcov-reporter": "^1.3.0"
+        "mocha-lcov-reporter": "^1.3.0",
+        "proxyquire": "^1.8.0",
+        "sinon": "^4.2.2",
+        "sinon-stub-promise": "^4.0.0"
     }
 }

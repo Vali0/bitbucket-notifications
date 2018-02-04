@@ -1,7 +1,12 @@
-var expect = require('chai').expect;
+let expect = require('chai').expect,
+    sinon = require('sinon'),
+    sinonStubPromise = require('sinon-stub-promise'),
+    proxyquire = require('proxyquire');
+
+sinonStubPromise(sinon);
 
 describe('PullRequests', function() {
-    let PullRequests = require('../lib/PullRequests'),
+    let PullRequests,
         bitbucket,
         username,
         repoSlug;
@@ -13,6 +18,10 @@ describe('PullRequests', function() {
     });
 
     describe('constructor', function() {
+        beforeEach(function  () {
+            PullRequests = require('../lib/PullRequests');
+        });
+
         it('should throw an error if username is missing', function() {
             // arrange
 
@@ -100,6 +109,178 @@ describe('PullRequests', function() {
                 jira: 'jiraLink' 
                 }
             });
+        });
+    });
+
+    describe('getPullRequests', function() {
+        let promise;
+
+        beforeEach(function  () {
+            promise = sinon.stub().returnsPromise();     
+
+            PullRequests = proxyquire('../lib/PullRequests', {
+                'request-promise': promise
+            });
+        });
+
+        it('should throw an error if response is rejected', function(done) {
+            // arrange
+            promise.rejects('foobar');
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                q: 'state="MERGED"'
+            });
+
+            // assert
+            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: Can not fetch pull requests. Stack trace: foobar');
+            done();
+        });
+
+        it('should throw an error if response is not valid JSON', function(done) {
+            // arrange
+            promise.resolves('not valid JSON');
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                q: 'state="MERGED"'
+            });
+
+            // assert
+            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: Can not fetch pull requests. Stack trace: Error: Can not fetch pull requests. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
+            done();
+        });
+
+        it('should return serialized pull requests', function(done) {
+            // arrange
+            let expected = {"develop":[{"title":"FOO-666-Foobar-PR","id":["FOO-666"],"jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+
+            let response = {
+                values: [{
+                    title: 'FOO-666-Foobar-PR',
+                    destination: {
+                        branch: {
+                            name: 'develop'
+                        }
+                    },
+                    links: {
+                        html: {
+                            href: 'bitbucket.org/pr/link'
+                        }
+                    },
+                    author: {
+                        display_name: 'Jane Doe',
+                        links: {
+                            html: {
+                                href: 'janedoe.com'
+                            }
+                        }
+                    }
+                }]
+            };
+
+            promise.resolves(JSON.stringify(response));
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                q: 'state="MERGED"'
+            });
+
+            // assert
+            expect(pullRequestsData.resolveValue).to.eql(expected);
+            done();
+        });
+
+        it('should concatinate pull requests if more than one have same target branch', function(done) {
+            // arrange
+            let expected = {"develop":[{"title":"FOO-666-Foobar-PR","id":["FOO-666"],"jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}},{"title":"FOO-666-Foobar-PR-2","id":["FOO-666"],"jiraUrl":"#","prUrl":"bitbucket.org/pr/link2","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+            let firstPagePrs = {"develop":[{"title":"FOO-666-Foobar-PR","id":["FOO-666"],"jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+            let response = {
+                values: [{
+                    title: 'FOO-666-Foobar-PR-2',
+                    destination: {
+                        branch: {
+                            name: 'develop'
+                        }
+                    },
+                    links: {
+                        html: {
+                            href: 'bitbucket.org/pr/link2'
+                        }
+                    },
+                    author: {
+                        display_name: 'Jane Doe',
+                        links: {
+                            html: {
+                                href: 'janedoe.com'
+                            }
+                        }
+                    }
+                }]
+            };
+
+            promise.resolves(JSON.stringify(response));
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                q: 'state="MERGED"'
+            }, firstPagePrs);
+
+            // assert
+            expect(pullRequestsData.resolveValue).to.eql(expected);
+            done();
+        });
+
+        it('should return append jira URLs if option is passed', function(done) {
+            // arrange
+            let jira = {
+                generateBrowseUrl: sinon.stub()
+            };
+            jira.generateBrowseUrl.returns('jira.com/browse/FOO-666');
+            let expected = {"develop":[{"title":"FOO-666-Foobar-PR","id":["FOO-666"],"jiraUrl":"jira.com/browse/FOO-666","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+
+            let response = {
+                values: [{
+                    title: 'FOO-666-Foobar-PR',
+                    destination: {
+                        branch: {
+                            name: 'develop'
+                        }
+                    },
+                    links: {
+                        html: {
+                            href: 'bitbucket.org/pr/link'
+                        }
+                    },
+                    author: {
+                        display_name: 'Jane Doe',
+                        links: {
+                            html: {
+                                href: 'janedoe.com'
+                            }
+                        }
+                    }
+                }]
+            };
+
+            promise.resolves(JSON.stringify(response));
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug, {
+                jira: jira,
+                addJiraLinks: true
+            });
+            let pullRequestsData = pullRequests.getPullRequests({
+                q: 'state="MERGED"'
+            });
+
+            // assert
+            expect(pullRequestsData.resolveValue).to.eql(expected);
+            done();
         });
     });
 });
