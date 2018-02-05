@@ -194,6 +194,47 @@ describe('PullRequests', function() {
             done();
         });
 
+        it('should return serialized pull requests and skip PR id if pattern not match', function(done) {
+            // arrange
+            let expected = {"develop":[{"title":"Foobar-PR-No-Id","id":null,"jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+
+            let response = {
+                values: [{
+                    title: 'Foobar-PR-No-Id',
+                    destination: {
+                        branch: {
+                            name: 'develop'
+                        }
+                    },
+                    links: {
+                        html: {
+                            href: 'bitbucket.org/pr/link'
+                        }
+                    },
+                    author: {
+                        display_name: 'Jane Doe',
+                        links: {
+                            html: {
+                                href: 'janedoe.com'
+                            }
+                        }
+                    }
+                }]
+            };
+
+            promise.resolves(JSON.stringify(response));
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                q: 'state="MERGED"'
+            });
+
+            // assert
+            expect(pullRequestsData.resolveValue).to.eql(expected);
+            done();
+        });
+
         it('should concatinate pull requests if more than one have same target branch', function(done) {
             // arrange
             let expected = {"develop":[{"title":"FOO-666-Foobar-PR","id":"FOO-666","jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}},{"title":"FOO-666-Foobar-PR-2","id":"FOO-666","jiraUrl":"#","prUrl":"bitbucket.org/pr/link2","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
