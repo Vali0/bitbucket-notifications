@@ -18,7 +18,7 @@ describe('PullRequests', function() {
     });
 
     describe('constructor', function() {
-        beforeEach(function  () {
+        beforeEach(function() {
             PullRequests = require('../lib/PullRequests');
         });
 
@@ -103,10 +103,10 @@ describe('PullRequests', function() {
                 _username: 'username',
                 _repoSlug: 'repoSlug',
                 pullRequestsUrl: 'https://api.bitbucket.org/2.0/repositories/username/repoSlug/pullrequests',
-                _options: { 
-                regExp: /[a-zA-Z]+-[0-9]+/,
-                addJiraLinks: true,
-                jira: 'jiraLink' 
+                _options: {
+                    regExp: /[a-zA-Z]+-[0-9]+/,
+                    addJiraLinks: true,
+                    jira: 'jiraLink'
                 }
             });
         });
@@ -115,8 +115,8 @@ describe('PullRequests', function() {
     describe('getPullRequests', function() {
         let promise;
 
-        beforeEach(function  () {
-            promise = sinon.stub().returnsPromise();     
+        beforeEach(function() {
+            promise = sinon.stub().returnsPromise();
 
             PullRequests = proxyquire('../lib/PullRequests', {
                 'request-promise': promise
@@ -155,7 +155,18 @@ describe('PullRequests', function() {
 
         it('should return serialized pull requests', function(done) {
             // arrange
-            let expected = {"develop":[{"title":"FOO-666-Foobar-PR","id":"FOO-666","jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+            let expected = {
+                "develop": [{
+                    "title": "FOO-666-Foobar-PR",
+                    "id": "FOO-666",
+                    "jiraUrl": "#",
+                    "prUrl": "bitbucket.org/pr/link",
+                    "author": {
+                        "displayName": "Jane Doe",
+                        "account": "janedoe.com"
+                    }
+                }]
+            };
 
             let response = {
                 values: [{
@@ -196,7 +207,18 @@ describe('PullRequests', function() {
 
         it('should return serialized pull requests and skip PR id if pattern not match', function(done) {
             // arrange
-            let expected = {"develop":[{"title":"Foobar-PR-No-Id","id":null,"jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+            let expected = {
+                "develop": [{
+                    "title": "Foobar-PR-No-Id",
+                    "id": null,
+                    "jiraUrl": "#",
+                    "prUrl": "bitbucket.org/pr/link",
+                    "author": {
+                        "displayName": "Jane Doe",
+                        "account": "janedoe.com"
+                    }
+                }]
+            };
 
             let response = {
                 values: [{
@@ -237,8 +259,39 @@ describe('PullRequests', function() {
 
         it('should concatinate pull requests if more than one have same target branch', function(done) {
             // arrange
-            let expected = {"develop":[{"title":"FOO-666-Foobar-PR","id":"FOO-666","jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}},{"title":"FOO-666-Foobar-PR-2","id":"FOO-666","jiraUrl":"#","prUrl":"bitbucket.org/pr/link2","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
-            let firstPagePrs = {"develop":[{"title":"FOO-666-Foobar-PR","id":"FOO-666","jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+            let expected = {
+                "develop": [{
+                    "title": "FOO-666-Foobar-PR",
+                    "id": "FOO-666",
+                    "jiraUrl": "#",
+                    "prUrl": "bitbucket.org/pr/link",
+                    "author": {
+                        "displayName": "Jane Doe",
+                        "account": "janedoe.com"
+                    }
+                }, {
+                    "title": "FOO-666-Foobar-PR-2",
+                    "id": "FOO-666",
+                    "jiraUrl": "#",
+                    "prUrl": "bitbucket.org/pr/link2",
+                    "author": {
+                        "displayName": "Jane Doe",
+                        "account": "janedoe.com"
+                    }
+                }]
+            };
+            let firstPagePrs = {
+                "develop": [{
+                    "title": "FOO-666-Foobar-PR",
+                    "id": "FOO-666",
+                    "jiraUrl": "#",
+                    "prUrl": "bitbucket.org/pr/link",
+                    "author": {
+                        "displayName": "Jane Doe",
+                        "account": "janedoe.com"
+                    }
+                }]
+            };
             let response = {
                 values: [{
                     title: 'FOO-666-Foobar-PR-2',
@@ -282,7 +335,18 @@ describe('PullRequests', function() {
                 generateBrowseUrl: sinon.stub()
             };
             jira.generateBrowseUrl.returns('jira.com/browse/FOO-666');
-            let expected = {"develop":[{"title":"FOO-666-Foobar-PR","id":"FOO-666","jiraUrl":"jira.com/browse/FOO-666","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+            let expected = {
+                "develop": [{
+                    "title": "FOO-666-Foobar-PR",
+                    "id": "FOO-666",
+                    "jiraUrl": "jira.com/browse/FOO-666",
+                    "prUrl": "bitbucket.org/pr/link",
+                    "author": {
+                        "displayName": "Jane Doe",
+                        "account": "janedoe.com"
+                    }
+                }]
+            };
 
             let response = {
                 values: [{

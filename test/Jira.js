@@ -1,18 +1,15 @@
-let expect = require('chai').expect,
-    sinon = require('sinon');
-
+let expect = require('chai').expect;
 
 describe('Jira', function() {
     let Jira,
-        domain,
-        browseUrl;
+        domain;
 
     beforeEach(function() {
         domain = 'myJira';
     });
 
     describe('constructor', function() {
-        beforeEach(function  () {
+        beforeEach(function() {
             Jira = require('../lib/Jira');
         });
 
@@ -43,7 +40,7 @@ describe('Jira', function() {
     });
 
     describe('generateBrowseUrl', function() {
-        beforeEach(function  () {
+        beforeEach(function() {
             Jira = require('../lib/Jira');
         });
 
@@ -71,7 +68,7 @@ describe('Jira', function() {
 
         it('should return browse url if ticket id and domain are passed', function() {
             // arrange
-            let expected = 'https://myJira.atlassian.net/browse/FOO-666'
+            let expected = 'https://myJira.atlassian.net/browse/FOO-666';
 
             // act
             let jira = new Jira(domain);

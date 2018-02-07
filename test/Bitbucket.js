@@ -1,6 +1,5 @@
 let expect = require('chai').expect,
     sinon = require('sinon'),
-    sinonStubPromise = require('sinon-stub-promise'),
     proxyquire = require('proxyquire');
 
 describe('Bitbucket', function() {
@@ -94,8 +93,8 @@ describe('Bitbucket', function() {
     describe('obtainTokens', function() {
         let promise;
 
-        beforeEach(function  () {
-            promise = sinon.stub().returnsPromise();     
+        beforeEach(function() {
+            promise = sinon.stub().returnsPromise();
 
             Bitbucket = proxyquire('../lib/Bitbucket', {
                 'request-promise': promise
@@ -150,8 +149,8 @@ describe('Bitbucket', function() {
     describe('refreshTokens', function() {
         let promise;
 
-        beforeEach(function  () {
-            promise = sinon.stub().returnsPromise();     
+        beforeEach(function() {
+            promise = sinon.stub().returnsPromise();
 
             Bitbucket = proxyquire('../lib/Bitbucket', {
                 'request-promise': promise
@@ -204,7 +203,7 @@ describe('Bitbucket', function() {
     describe('pullRequests', function() {
         let PullRequests;
 
-        beforeEach(function  () {
+        beforeEach(function() {
             PullRequests = sinon.stub();
 
             Bitbucket = proxyquire('../lib/Bitbucket', {
