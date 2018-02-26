@@ -107,7 +107,8 @@ describe('PullRequests', function() {
                     regExp: /[a-zA-Z]+-[0-9]+/,
                     addJiraLinks: true,
                     jira: 'jiraLink'
-                }
+                },
+                retries: 0
             });
         });
     });
@@ -117,6 +118,9 @@ describe('PullRequests', function() {
 
         beforeEach(function() {
             promise = sinon.stub().returnsPromise();
+            bitbucket = {
+                refreshTokens: sinon.stub().returnsPromise()
+            };
 
             PullRequests = proxyquire('../lib/PullRequests', {
                 'request-promise': promise
@@ -126,6 +130,7 @@ describe('PullRequests', function() {
         it('should throw an error if response is rejected', function(done) {
             // arrange
             promise.rejects('foobar');
+            bitbucket.refreshTokens.rejects('Dummy response');
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
@@ -134,7 +139,7 @@ describe('PullRequests', function() {
             });
 
             // assert
-            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: Can not fetch pull requests. Stack trace: foobar');
+            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: PullRequests: Can not refresh access token. Stack trace: Dummy response');
             done();
         });
 
@@ -149,7 +154,7 @@ describe('PullRequests', function() {
             });
 
             // assert
-            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: Can not fetch pull requests. Stack trace: Error: Can not fetch pull requests. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
+            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: Maximum number of refresh token retries exceeded. Stack trace: Error: Can not parse pull requests. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
             done();
         });
 
