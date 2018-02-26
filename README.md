@@ -65,5 +65,4 @@ In order to setup this module you have to do following steps
 
 # Known issues
 * All TODO across the code
-* PullRequests.getPullRequests do not refer to client.refreshTokens()
 * Tokens do not update automatically in config json
