@@ -101,7 +101,7 @@ describe('Bitbucket', function() {
             });
         });
 
-        it('should throw an error if response is rejected', function(done) {
+        it('should throw an error if response is rejected', function() {
             // arrange
             promise.rejects('foobar');
 
@@ -111,10 +111,9 @@ describe('Bitbucket', function() {
 
             // assert
             expect(result.rejectValue.toString()).to.equal('Error: Can not fetch client tokens. Stack trace: foobar');
-            done();
         });
 
-        it('should throw an error if response is not valid JSON', function(done) {
+        it('should throw an error if response is not valid JSON', function() {
             // arrange
             promise.resolves('not valid JSON');
 
@@ -124,10 +123,9 @@ describe('Bitbucket', function() {
 
             // assert
             expect(result.rejectValue.toString()).to.equal('Error: Can not fetch client tokens. Stack trace: Error: Cannot parse tokens. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
-            done();
         });
 
-        it('should set access and refresh tokens if request is successful', function(done) {
+        it('should set access and refresh tokens if request is successful', function() {
             // arrange
             let response = {
                 access_token: 'newAccessToken',
@@ -142,7 +140,6 @@ describe('Bitbucket', function() {
             // assert
             expect(client.accessToken).to.equal(response.access_token);
             expect(client.refreshToken).to.equal(response.refresh_token);
-            done();
         });
     });
 
@@ -157,7 +154,7 @@ describe('Bitbucket', function() {
             });
         });
 
-        it('should throw an error if response is rejected', function(done) {
+        it('should throw an error if response is rejected', function() {
             // arrange
             promise.rejects('foobar');
 
@@ -167,10 +164,9 @@ describe('Bitbucket', function() {
 
             // assert
             expect(result.rejectValue.toString()).to.equal('Error: Can not refresh access token by given refresh: refreshToken. Stack trace: foobar');
-            done();
         });
 
-        it('should throw an error if response is not valid JSON', function(done) {
+        it('should throw an error if response is not valid JSON', function() {
             // arrange
             promise.resolves('not valid JSON');
 
@@ -180,10 +176,10 @@ describe('Bitbucket', function() {
 
             // assert
             expect(result.rejectValue.toString()).to.equal('Error: Can not refresh access token by given refresh: refreshToken. Stack trace: Error: Cannot parse tokens. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
-            done();
+    
         });
 
-        it('should refresh access token by given refresh token', function(done) {
+        it('should refresh access token by given refresh token', function() {
             // arrange
             let response = {
                 access_token: 'newAccessToken'
@@ -196,7 +192,6 @@ describe('Bitbucket', function() {
 
             // assert
             expect(client.accessToken).to.equal(response.access_token);
-            done();
         });
     });
 

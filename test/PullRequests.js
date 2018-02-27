@@ -1,9 +1,12 @@
-let expect = require('chai').expect,
+let chai = require('chai'),
+    chaiAsPromised = require('chai-as-promised');
     sinon = require('sinon'),
     sinonStubPromise = require('sinon-stub-promise'),
-    proxyquire = require('proxyquire');
+    proxyquire = require('proxyquire'),
+    expect = chai.expect
 
 sinonStubPromise(sinon);
+chai.use(chaiAsPromised);
 
 describe('PullRequests', function() {
     let PullRequests,
@@ -127,10 +130,10 @@ describe('PullRequests', function() {
             });
         });
 
-        it('should throw an error if response is rejected', function(done) {
+        it('should throw an error if response is rejected and can not refresh tokens', function() {
             // arrange
-            promise.rejects('foobar');
-            bitbucket.refreshTokens.rejects('Dummy response');
+            promise.rejects('bad request');
+            bitbucket.refreshTokens.rejects('bad tokens');
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
@@ -139,11 +142,25 @@ describe('PullRequests', function() {
             });
 
             // assert
-            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: PullRequests: Can not refresh access token. Stack trace: Dummy response');
-            done();
+            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: PullRequests: Can not refresh access token. Stack trace: bad tokens');
         });
 
-        it('should throw an error if response is not valid JSON', function(done) {
+        it('should throw an error if response is rejected but can refresh tokens', function() {
+            // arrange
+            promise.rejects('bad request');
+            bitbucket.refreshTokens.resolves('New tokens');
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                q: 'state="MERGED"'
+            });
+
+            // assert
+            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: PullRequests: Can not refresh access token. Stack trace: Error: Maximum number of refresh token retries exceeded. Stack trace: bad request');
+        });
+
+        it('should throw an error if response is not valid JSON', function() {
             // arrange
             promise.resolves('not valid JSON');
 
@@ -155,10 +172,9 @@ describe('PullRequests', function() {
 
             // assert
             expect(pullRequestsData.rejectValue.toString()).to.equal('Error: Maximum number of refresh token retries exceeded. Stack trace: Error: Can not parse pull requests. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
-            done();
         });
 
-        it('should return serialized pull requests', function(done) {
+        it('should return serialized pull requests', function() {
             // arrange
             let expected = {
                 "develop": [{
@@ -206,11 +222,10 @@ describe('PullRequests', function() {
             });
 
             // assert
-            expect(pullRequestsData.resolveValue).to.eql(expected);
-            done();
+            return expect(pullRequestsData).to.eventually.eql(expected);
         });
 
-        it('should return serialized pull requests and skip PR id if pattern not match', function(done) {
+        it('should return serialized pull requests and skip PR id if pattern not match', function() {
             // arrange
             let expected = {
                 "develop": [{
@@ -258,11 +273,10 @@ describe('PullRequests', function() {
             });
 
             // assert
-            expect(pullRequestsData.resolveValue).to.eql(expected);
-            done();
+            return expect(pullRequestsData).to.eventually.eql(expected);
         });
 
-        it('should concatinate pull requests if more than one have same target branch', function(done) {
+        it('should concatinate pull requests if more than one have same target branch', function() {
             // arrange
             let expected = {
                 "develop": [{
@@ -330,11 +344,10 @@ describe('PullRequests', function() {
             }, firstPagePrs);
 
             // assert
-            expect(pullRequestsData.resolveValue).to.eql(expected);
-            done();
+            return expect(pullRequestsData).to.eventually.eql(expected);
         });
 
-        it('should return append jira URLs if option is passed', function(done) {
+        it('should set jira URLs if option is passed', function() {
             // arrange
             let jira = {
                 generateBrowseUrl: sinon.stub()
@@ -389,8 +402,73 @@ describe('PullRequests', function() {
             });
 
             // assert
-            expect(pullRequestsData.resolveValue).to.eql(expected);
-            done();
+            return expect(pullRequestsData).to.eventually.eql(expected);
         });
+
+        it('should get pull requests from second page', function() {
+            // arrange
+            let expected = {"develop":[{"title":"FOO-333-Foobar-PR","id":"FOO-333","jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}},{"title":"FOO-666-Foobar-PR","id":"FOO-666","jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+
+            let firstResponse = {
+                values: [{
+                    title: 'FOO-333-Foobar-PR',
+                    destination: {
+                        branch: {
+                            name: 'develop'
+                        }
+                    },
+                    links: {
+                        html: {
+                            href: 'bitbucket.org/pr/link'
+                        }
+                    },
+                    author: {
+                        display_name: 'Jane Doe',
+                        links: {
+                            html: {
+                                href: 'janedoe.com'
+                            }
+                        }
+                    }
+                }],
+                next: 'nextPage'
+            };
+
+            let secondResponse = {
+                values: [{
+                    title: 'FOO-666-Foobar-PR',
+                    destination: {
+                        branch: {
+                            name: 'develop'
+                        }
+                    },
+                    links: {
+                        html: {
+                            href: 'bitbucket.org/pr/link'
+                        }
+                    },
+                    author: {
+                        display_name: 'Jane Doe',
+                        links: {
+                            html: {
+                                href: 'janedoe.com'
+                            }
+                        }
+                    }
+                }]
+            };
+
+            promise.onCall(0).resolves(JSON.stringify(firstResponse));
+            promise.onCall(1).resolves(JSON.stringify(secondResponse));
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                q: 'state="MERGED"'
+            });
+
+            // assert
+            return expect(pullRequestsData).to.eventually.eql(expected);
+        })
     });
 });
