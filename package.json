@@ -26,7 +26,6 @@
     "author": "Valentin Radev",
     "license": "MIT",
     "dependencies": {
-        "config": "^1.28.1",
         "handlebars": "^4.0.11",
         "moment": "^2.20.1",
         "nodemailer": "^4.4.1",

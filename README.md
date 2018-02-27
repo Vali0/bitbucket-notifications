@@ -22,7 +22,7 @@ Simply run `npm install bitbucket-notifications --save`
 
 # Setup
 In order to setup this module you have to do following steps
-* Create a configuration file in your project root - config/default.json. It must have following format
+* Create a configuration file in your working directory under config folder with filename default.json - config/default.json. It must have following format
 ```
 {
     "bitbucket": {
@@ -43,15 +43,14 @@ In order to setup this module you have to do following steps
     }
 }
 ```
-* In your project create a starting javascript file and config folder so you have the structure from examples
+* In your working directory create a starting JavaScript file and config folder so you have the structure from examples
 * Replace clientId, secret, access token and refresh token. Bitbucket allow you to obtain tokens without client confirmation. To do this you can use client.obtainTokens(). Despite Google services where you must consent rights. So you have to manualy obtain your refresh token by calling Google OAuth2
-* in your index.js type `var bbnotify = require('bitbucket-notifications');`. This will return an object with bitbucket and gmail client
+* in your index.js type `var bbnotify = require('bitbucket-notifications');`. This will return an object with bitbucket, gmail and jira clients
 * You are ready to go!
 
 ### For complete example please check examples folder in GitHub
 
 # Dependencies
-* `config` - used for OAuth2 configuration. Client ids, client secrets, access and refresh tokens
 * `nodemailer` - used to send emails with Gmail
 * `request` - OAuth2 and API requests
 * `request-promise` - OAuth2 and API requests
