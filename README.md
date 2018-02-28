@@ -50,6 +50,68 @@ In order to setup this module you have to do following steps
 
 ### For complete example please check examples folder in GitHub
 
+# Docs
+## Bitbucket
+### obtainTokens - Sends request to Bitbucket API in order to obtain access and refresh tokens tokens by given client id and client secret. Returns a promise. 
+
+In case of success new access and refresh tokens are set to Bitbucket instance. 
+
+In case of failure exception is thrown
+
+This method is useful when you have only client id and secret and you do not have refresh token yet. Once obtained I would suggest you to use `refreshTokens` instead
+
+```javascript
+client.obtainTokens()
+    .then(() => {
+        console.log(client.accessToken);
+        console.log(client.refreshToken);
+    })
+    .catch(err => {
+        throw new Error('Something went wrong. Stack trace: ' + err);
+    });
+```
+
+### refreshTokens - Sends request to Bitbucket API in order to refresh access token for future requests. This function is called by default in case your request fail once when trying to access Bitbucket API. Returns a promise.
+
+In case of success new access token is set to Bitbucket instance
+
+In case of failure exception is thrown
+
+There is no reason to call this method separately as it is called by default from this npm module when you try to access Bitbucket resource and your access token is expired. However you can call it before all yours API calls if you want.
+
+```javascript
+console.log(client.accessToken);
+
+client.refreshTokens()
+    .then(() => {
+        console.log(client.accessToken);
+    })
+    .catch(err => {
+        throw new Error('Something went wrong. Stack trace: ' + err);
+    });
+```
+
+## PullRequests
+### getPullRequests - Sends request to Bitbucket API in order to get all pull requests by given parameters. Returns a promise.
+
+In case of success returns a list of all pull requests
+
+In case of failure exception is thrown
+
+Parameters must be an object with values based on Bitbucket API guidelines. In case of request failure because expired access token automatically calls `refreshTokens` from above and tries to refresh tokens. In case of success to refresh access token executes again `getPullRequests` with the same parameters. In case of failure to refresh access token throws an error.
+
+```javascript
+pullRequests.getPullRequests({
+        q: queryString
+    })
+    .then(pullRequestsList => {
+            console.log(JSON.stringify(pullRequestsList));
+    })
+    .catch(err => {
+        throw new Error('Something went wrong. Stack trace: ' + err);
+    });
+```
+
 # Dependencies
 * `nodemailer` - used to send emails with Gmail
 * `request` - OAuth2 and API requests
