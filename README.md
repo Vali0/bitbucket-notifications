@@ -98,7 +98,7 @@ In case of success returns a list of all pull requests
 
 In case of failure exception is thrown
 
-Parameters must be an object with values based on Bitbucket API guidelines. In case of request failure because expired access token automatically calls `refreshTokens` from above and tries to refresh tokens. In case of success to refresh access token executes again `getPullRequests` with the same parameters. In case of failure to refresh access token throws an error.
+Parameters must be an object with values based on Bitbucket API guidelines. In case of request failure because expired access token automatically calls `refreshTokens` from above and tries to refresh tokens. In case of success to refresh access token executes again `getPullRequests` with the same parameters. In case of failure to refresh access token throws an exception.
 
 ```javascript
 pullRequests.getPullRequests({
@@ -112,6 +112,34 @@ pullRequests.getPullRequests({
     });
 ```
 
+## Gmail
+### sendEmail - Sends email to given list of recipients
+
+In case of success sends email
+
+In case of failure exception is thrown
+
+Accept following parameters
+* sender - sender name
+* recipientsObject - an object with recipients emails
+* subject - email subject
+* content - html content
+
+```javascript
+let sender = 'jane.doe@gmail.com';
+let recipientsObject = {
+    to: ['john.doe@gmail.com'],
+    cc: ['john.doe1@gmail.com', 'john.doe2@gmail.com'],
+    bcc: ['john.doe3@gmail.com']
+};
+let subject = 'Merged pull requests in last 24h';
+
+let handlebarsTemplate = handlebars.compile(template);
+let content = handlebarsTemplate(pullRequestsList);
+
+gmail.sendEmail(sender, recipientsObject, subject, content);
+```
+
 # Dependencies
 * `nodemailer` - used to send emails with Gmail
 * `request` - OAuth2 and API requests
@@ -121,7 +149,6 @@ pullRequests.getPullRequests({
 
 # Roadmap
 * Implement jira authentication
-* Add functions description in README
 * Fill up releases(set fix version to a ticket) automatically
 
 # Known issues
