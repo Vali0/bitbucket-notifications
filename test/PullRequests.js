@@ -1,9 +1,9 @@
 let chai = require('chai'),
-    chaiAsPromised = require('chai-as-promised');
+    chaiAsPromised = require('chai-as-promised'),
     sinon = require('sinon'),
     sinonStubPromise = require('sinon-stub-promise'),
     proxyquire = require('proxyquire'),
-    expect = chai.expect
+    expect = chai.expect;
 
 sinonStubPromise(sinon);
 chai.use(chaiAsPromised);
@@ -407,7 +407,27 @@ describe('PullRequests', function() {
 
         it('should get pull requests from second page', function() {
             // arrange
-            let expected = {"develop":[{"title":"FOO-333-Foobar-PR","id":"FOO-333","jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}},{"title":"FOO-666-Foobar-PR","id":"FOO-666","jiraUrl":"#","prUrl":"bitbucket.org/pr/link","author":{"displayName":"Jane Doe","account":"janedoe.com"}}]};
+            let expected = {
+                "develop": [{
+                    "title": "FOO-333-Foobar-PR",
+                    "id": "FOO-333",
+                    "jiraUrl": "#",
+                    "prUrl": "bitbucket.org/pr/link",
+                    "author": {
+                        "displayName": "Jane Doe",
+                        "account": "janedoe.com"
+                    }
+                }, {
+                    "title": "FOO-666-Foobar-PR",
+                    "id": "FOO-666",
+                    "jiraUrl": "#",
+                    "prUrl": "bitbucket.org/pr/link",
+                    "author": {
+                        "displayName": "Jane Doe",
+                        "account": "janedoe.com"
+                    }
+                }]
+            };
 
             let firstResponse = {
                 values: [{
@@ -469,6 +489,6 @@ describe('PullRequests', function() {
 
             // assert
             return expect(pullRequestsData).to.eventually.eql(expected);
-        })
+        });
     });
 });

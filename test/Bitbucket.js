@@ -176,7 +176,7 @@ describe('Bitbucket', function() {
 
             // assert
             expect(result.rejectValue.toString()).to.equal('Error: Can not refresh access token by given refresh: refreshToken. Stack trace: Error: Cannot parse tokens. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
-    
+
         });
 
         it('should refresh access token by given refresh token', function() {
@@ -219,6 +219,6 @@ describe('Bitbucket', function() {
             expect(PullRequests.callCount).to.equal(1);
             expect(PullRequests.calledWithNew()).to.be.true;
             expect(PullRequests.calledWith(client, username, repoSlug)).to.be.true;
-        })
+        });
     });
 });

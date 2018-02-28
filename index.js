@@ -6,7 +6,7 @@ var bitbucketNotifications = (function() {
 
     const currentWorkingDirectory = process.cwd();
     const configurationPath = path.join(currentWorkingDirectory, 'config/default.json');
-    
+
     // Personally I don't find reason to put try-catch here as error from fs.readFileSync itself is descriptive
     var configurationJSON = fs.readFileSync(configurationPath, 'utf8');
 
