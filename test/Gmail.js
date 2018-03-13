@@ -113,11 +113,6 @@ describe('Gmail', function() {
 
         beforeEach(function() {
             sender = 'jane@gmail.com';
-            recipientsObject = {
-                to: ['john.doe@gmail.com'],
-                cc: ['john.doe1@gmail.com', 'john.doe2@gmail.com'],
-                bcc: ['john.doe3@gmail.com']
-            };
             subject = 'Merged pull requests in last 24h';
             content = '<h1>Foobar</h1>';
 
@@ -471,6 +466,48 @@ describe('Gmail', function() {
             // assert
             expect(transporter.sendMail.callCount).to.equal(1);
             expect(transporter.sendMail.getCall(0).args[0].bcc).to.be.equal([firstRecipient, secondRecipient].join(', '));
+        });
+
+        it('should throw an error if email can not be sent', function() {
+            // arrange
+            let recipient = 'jane@gmail.com';
+
+            nodemailer.createTransport.returns(transporter);
+
+            // act
+            let result = function() {
+                let response = gmail.sendEmail(sender, {
+                    to: [recipient]
+                }, subject, content);
+
+                transporter.sendMail.yield('nodemailer error');
+
+                return response;
+            };
+
+            // assert
+            expect(result).to.throw('Can not send email. Stack trace: nodemailer error');
+        });
+
+        it('should log console message if message is sent', function() {
+            // arrange
+            let recipient = 'jane@gmail.com';
+            let consoleSpy = sinon.spy(console, 'log');
+
+            nodemailer.createTransport.returns(transporter);
+
+            // act
+            gmail.sendEmail(sender, {
+                to: [recipient]
+            }, subject, content);
+
+            transporter.sendMail.yield(undefined, {
+                messageId: 666
+            });
+
+            // assert
+            expect(consoleSpy.callCount).to.equal(1);
+            expect(consoleSpy.getCall(0).args).to.include('Message sent: %s', 666);
         });
     });
 });
