@@ -52,9 +52,9 @@ In order to setup this module you have to do following steps
 
 # Docs
 ## Bitbucket
-### obtainTokens - Sends request to Bitbucket API in order to obtain access and refresh tokens tokens by given client id and client secret. Returns a promise. 
+### obtainTokens - Sends request to Bitbucket API in order to obtain access and refresh tokens tokens by given client id and client secret. Returns a promise.
 
-In case of success new access and refresh tokens are set to Bitbucket instance. 
+In case of success new access and refresh tokens are set to Bitbucket instance.
 
 In case of failure exception is thrown
 
@@ -148,8 +148,6 @@ gmail.sendEmail(sender, recipientsObject, subject, content);
 * `handlebars` - used in example to generate email template for given context
 
 # Roadmap
-* Implement jira authentication
-* Fill up releases(set fix version to a ticket) automatically
 
 # Known issues
 * All TODO across the code
