@@ -211,5 +211,33 @@ describe('Jira', function() {
             // assert
             expect(result.resolveValue).to.be.undefined;
         });
+
+        it('should call jira with correct body', function() {
+            // arrange
+            let expected = {
+                method: 'POST',
+                uri: 'https://myJira.atlassian.net/rest/api/2/issue/FOO-666/transitions',
+                body: '{"transition":{"id":"323"}}',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                auth: {
+                    user: 'jane.doe',
+                    pass: 'token666'
+                }
+            };
+            let issueId = 'FOO-666',
+                transitionId = '323';
+
+            promise.resolves();
+
+            // act
+            let jira = new Jira(domain, username, authorisationToken);
+            let result = jira.transitionIssue(issueId, transitionId);
+
+            // assert
+            expect(promise.callCount).to.equal(1);
+            expect(promise.getCall(0).args[0]).to.eql(expected);
+        });
     });
 });
