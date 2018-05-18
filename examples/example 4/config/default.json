@@ -1,0 +1,20 @@
+{
+    "bitbucket": {
+        "clientId": "",
+        "clientSecret": "",
+        "accessToken": "",
+        "refreshToken": ""
+    },
+    "gmail": {
+        "user": "",
+        "clientId": "",
+        "clientSecret": "",
+        "accessToken": "",
+        "refreshToken": ""
+    },
+    "jira": {
+        "domain": "",
+        "username": "",
+        "authorisationToken": ""
+    }
+}
