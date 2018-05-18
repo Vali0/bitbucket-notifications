@@ -37,7 +37,7 @@ var bitbucketNotifications = (function() {
 
     var bitbucket = new Bitbucket(bitbucketConfig.clientId, bitbucketConfig.clientSecret, bitbucketConfig.accessToken, bitbucketConfig.refreshToken);
     var gmail = new Gmail(gmailConfig.user, gmailConfig.clientId, gmailConfig.clientSecret, gmailConfig.accessToken, gmailConfig.refreshToken);
-    var jira = new Jira(jiraConfig.domain);
+    var jira = new Jira(jiraConfig.domain, jiraConfig.username, jiraConfig.authorisationToken);
 
     return {
         bitbucket: bitbucket,
