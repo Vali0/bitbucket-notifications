@@ -56,14 +56,18 @@ pullRequests.getPullRequests({
             return;
         }
 
-        const transitionId = 291; // The transition id from your Jira. You can get all possible transitions by making get request to https://{domain}.atlassian.net/rest/api/2/issue/{issueId}/transitions
+        let options = {
+            transition: {
+                id: 323 // The transition id from your Jira. You can get all possible transitions by making get request to https://{domain}.atlassian.net/rest/api/2/issue/{issueId}/transitions
+            }
+        };
 
         for (let pullListKey in pullRequestsList) {
             let pullRequests = pullRequestsList[pullListKey];
 
             for (let pullRequest of pullRequests) {
                 if (pullRequest.id) {
-                    jira.transitionIssue(pullRequest.id, transitionId);
+                    jira.transitionIssue(pullRequest.id, options);
                 }
             }
         }
