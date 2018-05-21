@@ -185,13 +185,17 @@ describe('Jira', function() {
         it('should throw an error if request cannot be fulfilled', function() {
             // arrange
             let issueId = 'FOO-666',
-                transitionId = '323';
+                options = {};
+
+            options.transition = {
+                id: 323
+            };
 
             promise.rejects('bad request');
 
             // act
             let jira = new Jira(domain, username, authorisationToken);
-            let result = jira.transitionIssue(issueId, transitionId);
+            let result = jira.transitionIssue(issueId, options);
 
             // assert
             expect(result.rejectValue.toString()).to.equal('Error: Can not transition issue FOO-666 to 323. Stack trace: bad request');
@@ -200,13 +204,17 @@ describe('Jira', function() {
         it('should return empty response if successful', function() {
             // arrange
             let issueId = 'FOO-666',
-                transitionId = '323';
+                options = {};
+
+            options.transition = {
+                id: 323
+            };
 
             promise.resolves();
 
             // act
             let jira = new Jira(domain, username, authorisationToken);
-            let result = jira.transitionIssue(issueId, transitionId);
+            let result = jira.transitionIssue(issueId, options);
 
             // assert
             expect(result.resolveValue).to.be.undefined;
@@ -217,7 +225,7 @@ describe('Jira', function() {
             let expected = {
                 method: 'POST',
                 uri: 'https://myJira.atlassian.net/rest/api/2/issue/FOO-666/transitions',
-                body: '{"transition":{"id":"323"}}',
+                body: '{"transition":{"id":323}}',
                 headers: {
                     'content-type': 'application/json'
                 },
@@ -227,13 +235,17 @@ describe('Jira', function() {
                 }
             };
             let issueId = 'FOO-666',
-                transitionId = '323';
+                options = {};
+
+            options.transition = {
+                id: 323
+            };
 
             promise.resolves();
 
             // act
             let jira = new Jira(domain, username, authorisationToken);
-            let result = jira.transitionIssue(issueId, transitionId);
+            let result = jira.transitionIssue(issueId, options);
 
             // assert
             expect(promise.callCount).to.equal(1);
