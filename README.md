@@ -54,7 +54,7 @@ In order to setup this module you have to do following steps
 
 # Docs
 ## Bitbucket
-### obtainTokens
+### obtainTokens()
 Sends request to Bitbucket API in order to obtain access and refresh tokens tokens by given client id and client secret. Returns a promise.
 
 In case of success new access and refresh tokens are set to Bitbucket instance.
@@ -74,7 +74,7 @@ client.obtainTokens()
     });
 ```
 
-### refreshTokens
+### refreshTokens()
 Sends request to Bitbucket API in order to refresh access token for future requests. This function is called by default in case your request fail once when trying to access Bitbucket API. Returns a promise.
 
 In case of success new access token is set to Bitbucket instance
