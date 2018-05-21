@@ -10,7 +10,7 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/bitbucket-notifications)
 
 # Description
-Have you wondered what tickets went in your release? Do you spend time to prepare a list of all tickets and share it with your client, development or QA team? Well this app may save you that time! By using modern features from ES6, popular services and OAuth2 authentication to keep your credentials secure we've made a tool which can get information from your bitbucket account and send the data via Gmail
+Have you wondered what tickets went in your release? Do you spend time to prepare a list of all tickets and share it with your client, development or QA team? Well this app may save you that time! By using modern features from ES6, popular services and OAuth2 authentication to keep your credentials secure we've made a tool which can get information from your bitbucket account and send the data via Gmail. It can also authenticate with your jira, add links to your tickets and edit them automatically.
 
 ## Example usage
 If you have automated build process running on environment with node you can run this module to fetch all pull requests from bitbucket for given user and repository and send them via gmail
@@ -39,7 +39,9 @@ In order to setup this module you have to do following steps
         "refreshToken": "refreshToken"
     },
     "jira": {
-        "domain": "domain"
+        "domain": "domain",
+        "username": "username",
+        "authorisationToken": "authorisationToken"
     }
 }
 ```
@@ -52,7 +54,8 @@ In order to setup this module you have to do following steps
 
 # Docs
 ## Bitbucket
-### obtainTokens - Sends request to Bitbucket API in order to obtain access and refresh tokens tokens by given client id and client secret. Returns a promise.
+### obtainTokens
+Sends request to Bitbucket API in order to obtain access and refresh tokens tokens by given client id and client secret. Returns a promise.
 
 In case of success new access and refresh tokens are set to Bitbucket instance.
 
@@ -71,7 +74,8 @@ client.obtainTokens()
     });
 ```
 
-### refreshTokens - Sends request to Bitbucket API in order to refresh access token for future requests. This function is called by default in case your request fail once when trying to access Bitbucket API. Returns a promise.
+### refreshTokens
+Sends request to Bitbucket API in order to refresh access token for future requests. This function is called by default in case your request fail once when trying to access Bitbucket API. Returns a promise.
 
 In case of success new access token is set to Bitbucket instance
 
@@ -92,11 +96,10 @@ client.refreshTokens()
 ```
 
 ## PullRequests
-### getPullRequests - Sends request to Bitbucket API in order to get all pull requests by given parameters. Returns a promise.
-
-In case of success returns a list of all pull requests
-
-In case of failure exception is thrown
+### getPullRequests(params, callback)
+Sends request to Bitbucket API in order to get all pull requests by given parameters. Returns a promise.
+- `params` - Query string parameters for get request. Based on [Bitbucket documentation](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Busername%7D/%7Brepo_slug%7D/pullrequests)
+- callback - Usually used as a callback parameter for recursion if there is more than one page of pull requests
 
 Parameters must be an object with values based on Bitbucket API guidelines. In case of request failure because expired access token automatically calls `refreshTokens` from above and tries to refresh tokens. In case of success to refresh access token executes again `getPullRequests` with the same parameters. In case of failure to refresh access token throws an exception.
 
@@ -113,17 +116,21 @@ pullRequests.getPullRequests({
 ```
 
 ## Gmail
-### sendEmail - Sends email to given list of recipients
+### sendEmail(sender, recipients, subject, content)
+Sends email to given list of recipients
 
+- `sender` - String representation of sender's email
+- `recipients` - an object with recipients emails
+- `subject` - email subject
+- `content` - html content
 In case of success sends email
 
 In case of failure exception is thrown
 
-Accept following parameters
-* sender - sender name
-* recipientsObject - an object with recipients emails
-* subject - email subject
-* content - html content
+## Jira
+### transitionIssue(issueId, options)
+- `issueId` - Issue id from Jira
+- `options` - Options as JavaScript object based on [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/) documentation
 
 ```javascript
 let sender = 'jane.doe@gmail.com';
@@ -148,6 +155,8 @@ gmail.sendEmail(sender, recipientsObject, subject, content);
 * `handlebars` - used in example to generate email template for given context
 
 # Roadmap
+* Jira.transitionIssue - add third parameter true|false to allow customers to pass entire object based on Jira REST API
+* Jira.transitionIssue - implement change assignee
 
 # Known issues
 * All TODO across the code
