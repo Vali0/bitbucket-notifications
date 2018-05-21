@@ -99,7 +99,7 @@ client.refreshTokens()
 ### getPullRequests(params, callback)
 Sends request to Bitbucket API in order to get all pull requests by given parameters. Returns a promise.
 - `params` - Query string parameters for get request. Based on [Bitbucket documentation](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Busername%7D/%7Brepo_slug%7D/pullrequests)
-- callback - Usually used as a callback parameter for recursion if there is more than one page of pull requests
+- `callback` - Usually used as a callback parameter for recursion if there is more than one page of pull requests
 
 Parameters must be an object with values based on Bitbucket API guidelines. In case of request failure because expired access token automatically calls `refreshTokens` from above and tries to refresh tokens. In case of success to refresh access token executes again `getPullRequests` with the same parameters. In case of failure to refresh access token throws an exception.
 
@@ -123,6 +123,7 @@ Sends email to given list of recipients
 - `recipients` - an object with recipients emails
 - `subject` - email subject
 - `content` - html content
+
 In case of success sends email
 
 In case of failure exception is thrown
