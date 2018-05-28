@@ -32,7 +32,7 @@ var bitbucketNotifications = (function() {
 
     // No need to check for access token as it expires
     if (!(gmailConfig.user && gmailConfig.clientId && gmailConfig.clientSecret && gmailConfig.refreshToken)) {
-        throw new Error('Missing OAuth2 configuration for gmail in config .json');
+        throw new Error('Missing OAuth2 configuration for gmail in config.json');
     }
 
     var bitbucket = new Bitbucket(bitbucketConfig.clientId, bitbucketConfig.clientSecret, bitbucketConfig.accessToken, bitbucketConfig.refreshToken);

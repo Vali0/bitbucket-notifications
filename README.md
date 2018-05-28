@@ -162,7 +162,6 @@ gmail.sendEmail(sender, recipientsObject, subject, content);
 * `handlebars` - used in example to generate email template for given context
 
 # Roadmap
-* Ability to pass custom configs
 
 # Known issues
 * All TODO across the code
