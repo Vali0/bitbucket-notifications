@@ -168,7 +168,7 @@ describe('Jira', function() {
             expect(result).to.throw('Issue id is missing');
         });
 
-        it('should throw an error if transition id is not passed to the function', function() {
+        it('should throw an error if no options are passed', function() {
             // arrange
             let issueId = 'FOO-666';
 
@@ -179,7 +179,7 @@ describe('Jira', function() {
             };
 
             // assert
-            expect(result).to.throw('Transition id is missing');
+            expect(result).to.throw('Missing options');
         });
 
         it('should throw an error if request cannot be fulfilled', function() {

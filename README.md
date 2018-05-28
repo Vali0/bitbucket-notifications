@@ -46,6 +46,12 @@ In order to setup this module you have to do following steps
 }
 ```
 * In your working directory create a starting JavaScript file and config folder so you have the structure from examples
+```
+.
+├── config
+│   └── default.json
+└── index.js
+```
 * Replace clientId, secret, access token and refresh token. Bitbucket allow you to obtain tokens without client confirmation. To do this you can use client.obtainTokens(). Despite Google services where you must consent rights. So you have to manualy obtain your refresh token by calling Google OAuth2
 * in your index.js type `var bbnotify = require('bitbucket-notifications');`. This will return an object with bitbucket, gmail and jira clients
 * You are ready to go!
@@ -131,7 +137,7 @@ In case of failure exception is thrown
 ## Jira
 ### transitionIssue(issueId, options)
 - `issueId` - Issue id from Jira
-- `options` - Options as JavaScript object based on [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/) documentation
+- `options` - Options as JavaScript object based on [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/#api-api-2-issue-issueIdOrKey-transitions-post) documentation
 
 ```javascript
 let sender = 'jane.doe@gmail.com';
@@ -156,8 +162,7 @@ gmail.sendEmail(sender, recipientsObject, subject, content);
 * `handlebars` - used in example to generate email template for given context
 
 # Roadmap
-* Jira.transitionIssue - add third parameter true|false to allow customers to pass entire object based on Jira REST API
-* Jira.transitionIssue - implement change assignee
+* Ability to pass custom configs
 
 # Known issues
 * All TODO across the code
