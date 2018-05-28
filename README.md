@@ -139,6 +139,10 @@ In case of failure exception is thrown
 - `issueId` - Issue id from Jira
 - `options` - Options as JavaScript object based on [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/#api-api-2-issue-issueIdOrKey-transitions-post) documentation
 
+In case of success issue is transitioned by the given parameters
+
+In case of failure exception is thrown
+
 ```javascript
 let sender = 'jane.doe@gmail.com';
 let recipientsObject = {
