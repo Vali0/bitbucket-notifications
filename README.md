@@ -22,7 +22,14 @@ Simply run `npm install bitbucket-notifications --save`
 
 # Setup
 In order to setup this module you have to do following steps
-* Create a configuration file in your working directory under config folder with filename default.json - config/default.json. It must have following format
+* In your working directory create a starting JavaScript file and config folder so you have the structure from examples
+```
+.
+├── config
+│   └── default.json
+└── index.js
+```
+* Inside config folder create new file called default.json with following parameters
 ```
 {
     "bitbucket": {
@@ -45,15 +52,8 @@ In order to setup this module you have to do following steps
     }
 }
 ```
-* In your working directory create a starting JavaScript file and config folder so you have the structure from examples
-```
-.
-├── config
-│   └── default.json
-└── index.js
-```
-* Replace clientId, secret, access token and refresh token. Bitbucket allow you to obtain tokens without client confirmation. To do this you can use client.obtainTokens(). Despite Google services where you must consent rights. So you have to manualy obtain your refresh token by calling Google OAuth2
-* in your index.js type `var bbnotify = require('bitbucket-notifications');`. This will return an object with bitbucket, gmail and jira clients
+* Inside default.json replace clientId, secret, access token and refresh token. Bitbucket allow you to obtain tokens without client confirmation. To do this you can use client.obtainTokens(). Despite Google services where you must consent rights. So you have to manualy obtain your refresh token by calling Google OAuth2. For Jira token you must generate API token for your username through Jira interface
+* in your index.js write `var bbnotify = require('bitbucket-notifications');`. This will return an object with bitbucket, gmail and jira clients
 * You are ready to go!
 
 ### For complete example please check examples folder in GitHub
@@ -166,6 +166,7 @@ gmail.sendEmail(sender, recipientsObject, subject, content);
 * `handlebars` - used in example to generate email template for given context
 
 # Roadmap
+* Looking for ideas :)
 
 # Known issues
 * All TODO across the code
