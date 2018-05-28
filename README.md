@@ -134,15 +134,6 @@ In case of success sends email
 
 In case of failure exception is thrown
 
-## Jira
-### transitionIssue(issueId, options)
-- `issueId` - Issue id from Jira
-- `options` - Options as JavaScript object based on [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/#api-api-2-issue-issueIdOrKey-transitions-post) documentation
-
-In case of success issue is transitioned by the given parameters
-
-In case of failure exception is thrown
-
 ```javascript
 let sender = 'jane.doe@gmail.com';
 let recipientsObject = {
@@ -156,6 +147,42 @@ let handlebarsTemplate = handlebars.compile(template);
 let content = handlebarsTemplate(pullRequestsList);
 
 gmail.sendEmail(sender, recipientsObject, subject, content);
+```
+
+## Jira
+### transitionIssue(issueId, options)
+- `issueId` - Issue id from Jira
+- `options` - Options as JavaScript object based on [Jira REST API](https://developer.atlassian.com/cloud/jira/platform/rest/#api-api-2-issue-issueIdOrKey-transitions-post) documentation
+
+In case of success issue is transitioned by the given parameters
+
+In case of failure exception is thrown
+
+```javascript
+pullRequests.getPullRequests({
+        q: queryString
+    })
+    .then(pullRequestsList => {
+        if (!Object.keys(pullRequestsList).length) {
+            return;
+        }
+
+        let options = {
+            transition: {
+                id: 323 // The transition id from your Jira. You can get all possible transitions by making get request to https://{domain}.atlassian.net/rest/api/2/issue/{issueId}/transitions
+            }
+        };
+
+        for (let pullListKey in pullRequestsList) {
+            let pullRequests = pullRequestsList[pullListKey];
+
+            for (let pullRequest of pullRequests) {
+                if (pullRequest.id) {
+                    jira.transitionIssue(pullRequest.id, options);
+                }
+            }
+        }
+    })
 ```
 
 # Dependencies
