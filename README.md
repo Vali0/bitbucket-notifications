@@ -107,9 +107,9 @@ Sends request to Bitbucket API in order to get all pull requests by given parame
 - `options`
     - `q (optional)` - Search query for get request based on [Bitbucket documentation](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Busername%7D/%7Brepo_slug%7D/pullrequests). If present search will be performed for this query. If missing at least one of the following fields is required and query will be build internally with `AND` operator: state, updatedOn, destinationBranch
     - `state (required if q is missing)` - Pull request state: MERGED, SUPERSEDED, OPEN, DECLINED
-    - `updatedOn (required if q is missing)` - an unquoted ISO-8601 date time string with the timezone offset, milliseconds and entire time component being optional
-    - `destinationBranch (required if q is missing)` - destination branch name
-    - `page (required if q is missing)` - page number if you want to skip pages
+    - `updatedOn (optional)` - an unquoted ISO-8601 date time string with the timezone offset, milliseconds and entire time component being optional
+    - `destinationBranch (optional)` - destination branch name
+    - `page (optional)` - page number if you want to skip pages
 - `pullRequestsList` - Previously stored pull requests. Used in recursion when there is next page or if you want to append an already existing list to newly pulled one
 
 Parameters must be an object with values based on Bitbucket API guidelines. In case of request failure because expired access token automatically calls `refreshTokens` from above and tries to refresh tokens. In case of success to refresh access token executes again `getPullRequests` with the same parameters. In case of failure to refresh access token throws an exception.
