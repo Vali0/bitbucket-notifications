@@ -205,17 +205,13 @@ describe('PullRequests', function() {
             });
         });
 
-        it('should build new search query if destination branch name parameter', function() {
+        it('should build new search query with destination branch name parameter', function() {
             // arrange
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
             let pullRequestsData = pullRequests.getPullRequests({
-                destination: {
-                    branch: {
-                        name: 'foobar'
-                    }
-                }
+                destinationBranch: 'foobar'
             });
 
             // assert
@@ -250,11 +246,7 @@ describe('PullRequests', function() {
             let pullRequestsData = pullRequests.getPullRequests({
                 state: 'MERGED',
                 updatedOn: '6-06-6006',
-                destination: {
-                    branch: {
-                        name: 'foobar'
-                    }
-                }
+                destinationBranch: 'foobar'
             });
 
             // assert
