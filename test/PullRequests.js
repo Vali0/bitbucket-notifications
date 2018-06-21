@@ -130,6 +130,132 @@ describe('PullRequests', function() {
             });
         });
 
+        it('should throw an error if options are missing', function() {
+            // arrange
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = function() {
+                return pullRequests.getPullRequests();
+            };
+
+            // assert
+            expect(pullRequestsData).to.throw('Missing search parameters');
+        });
+
+        it('should throw an error if options are passed but empty', function() {
+            // arrange
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = function() {
+                return pullRequests.getPullRequests({});
+            };
+
+            // assert
+            expect(pullRequestsData).to.throw('Missing search parameters');
+        });
+
+        it('should use user search query instead of building new one', function() {
+            // arrange
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                q: 'state="MERGED"',
+                state: 'OPEN'
+            });
+
+            // assert
+            expect(promise.getCall(0).args[0].qs).to.eql({
+                q: 'state="MERGED"',
+                page: 1
+            });
+        });
+
+        it('should build new search query if q is missing', function() {
+            // arrange
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                state: 'OPEN'
+            });
+
+            // assert
+            expect(promise.getCall(0).args[0].qs).to.eql({
+                q: 'state="OPEN"',
+                page: 1
+            });
+        });
+
+        it('should build new search query with updated on parameter', function() {
+            // arrange
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                updatedOn: '6-06-6006'
+            });
+
+            // assert
+            expect(promise.getCall(0).args[0].qs).to.eql({
+                q: 'updated_on >= 6-06-6006',
+                page: 1
+            });
+        });
+
+        it('should build new search query with destination branch name parameter', function() {
+            // arrange
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                destinationBranch: 'foobar'
+            });
+
+            // assert
+            expect(promise.getCall(0).args[0].qs).to.eql({
+                q: 'destination.branch.name="foobar"',
+                page: 1
+            });
+        });
+
+        it('should append updatedOn parameter to state', function() {
+            // arrange
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                state: 'MERGED',
+                updatedOn: '6-06-6006'
+            });
+
+            // assert
+            expect(promise.getCall(0).args[0].qs).to.eql({
+                q: 'state="MERGED" AND updated_on >= 6-06-6006',
+                page: 1
+            });
+        });
+
+        it('should append branch name parameter to state and updatedOn', function() {
+            // arrange
+
+            // act
+            let pullRequests = new PullRequests(bitbucket, username, repoSlug);
+            let pullRequestsData = pullRequests.getPullRequests({
+                state: 'MERGED',
+                updatedOn: '6-06-6006',
+                destinationBranch: 'foobar'
+            });
+
+            // assert
+            expect(promise.getCall(0).args[0].qs).to.eql({
+                q: 'state="MERGED" AND updated_on >= 6-06-6006 AND destination.branch.name="foobar"',
+                page: 1
+            });
+        });
+
         it('should throw an error if response is rejected and can not refresh tokens', function() {
             // arrange
             promise.rejects('bad request');
