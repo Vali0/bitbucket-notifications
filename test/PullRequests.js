@@ -161,7 +161,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 q: 'state="MERGED"',
                 state: 'OPEN'
             });
@@ -178,7 +178,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 state: 'OPEN'
             });
 
@@ -194,7 +194,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 updatedOn: '6-06-6006'
             });
 
@@ -210,7 +210,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 destinationBranch: 'foobar'
             });
 
@@ -226,7 +226,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 state: 'MERGED',
                 updatedOn: '6-06-6006'
             });
@@ -243,7 +243,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 state: 'MERGED',
                 updatedOn: '6-06-6006',
                 destinationBranch: 'foobar'

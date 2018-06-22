@@ -38,7 +38,9 @@ module.exports = {
         ],
         "capitalized-comments": [
             "error",
-            "never"
+            "always", {
+                "ignorePattern": "arrange|act|assert"
+            }
         ],
         "class-methods-use-this": "error",
         "comma-dangle": "off",
@@ -61,7 +63,7 @@ module.exports = {
         "consistent-this": "error",
         "curly": "error",
         "default-case": "error",
-        "dot-location": "error",
+        "dot-location": ["error", "property"],
         "dot-notation": [
             "error", {
                 "allowKeywords": true
@@ -78,10 +80,6 @@ module.exports = {
         "func-names": [
             "error",
             "never"
-        ],
-        "func-style": [
-            "error",
-            "expression"
         ],
         "function-paren-newline": "error",
         "generator-star-spacing": "error",
@@ -115,7 +113,7 @@ module.exports = {
         "max-len": "off",
         "max-lines": "off",
         "max-nested-callbacks": "error",
-        "max-params": ["error", 4],
+        "max-params": ["error", 5],
         "max-statements": "off",
         "max-statements-per-line": "error",
         "multiline-comment-style": "error",
@@ -149,7 +147,6 @@ module.exports = {
         "no-implicit-globals": "error",
         "no-implied-eval": "error",
         "no-inline-comments": "error",
-        "no-invalid-this": "error",
         "no-iterator": "error",
         "no-label-var": "error",
         "no-labels": "error",
@@ -205,7 +202,11 @@ module.exports = {
         "no-unmodified-loop-condition": "error",
         "no-unneeded-ternary": "error",
         "no-unused-expressions": "off",
-        "no-use-before-define": "error",
+        "no-use-before-define": ["error", {
+            "functions": false,
+            "classes": true,
+            "variables": true
+        }],
         "no-useless-call": "error",
         "no-useless-computed-key": "error",
         "no-useless-concat": "error",
@@ -214,7 +215,6 @@ module.exports = {
         "no-useless-return": "error",
         "no-var": "error",
         "no-void": "error",
-        "no-warning-comments": "error",
         "no-whitespace-before-property": "error",
         "no-with": "error",
         "nonblock-statement-body-position": "error",
@@ -233,7 +233,6 @@ module.exports = {
         "prefer-destructuring": "off",
         "prefer-numeric-literals": "error",
         "prefer-promise-reject-errors": "error",
-        "prefer-reflect": "error",
         "prefer-rest-params": "error",
         "prefer-spread": "error",
         "prefer-template": "error",
