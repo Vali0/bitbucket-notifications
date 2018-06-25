@@ -64,6 +64,23 @@ describe('PullRequests', function() {
             expect(pullPequests.options).to.eql(expected);
         });
 
+        it('should set options if not all are passed', function() {
+            // arrange
+            let expected = {
+                regExp: /[a-zA-Z]{2-5}-[0-9]{2-5}/,
+                addJiraLinks: false,
+                jira: undefined
+            };
+
+            // act
+            let pullPequests = new PullRequests(bitbucket, username, repoSlug, {
+                regExp: /[a-zA-Z]{2-5}-[0-9]{2-5}/
+            });
+
+            // assert
+            expect(pullPequests.options).to.eql(expected);
+        });
+
         it('should set options if all are passed', function() {
             // arrange
             let expected = {
