@@ -1,12 +1,7 @@
 let chai = require('chai'),
-    chaiAsPromised = require('chai-as-promised'),
     sinon = require('sinon'),
-    sinonStubPromise = require('sinon-stub-promise'),
     proxyquire = require('proxyquire'),
     expect = chai.expect;
-
-sinonStubPromise(sinon);
-chai.use(chaiAsPromised);
 
 describe('Jira', function() {
     let Jira,
@@ -122,7 +117,7 @@ describe('Jira', function() {
         let promise;
 
         beforeEach(function() {
-            promise = sinon.stub().returnsPromise();
+            promise = sinon.stub();
 
             Jira = proxyquire('../lib/Jira', {
                 'request-promise': promise
@@ -198,7 +193,10 @@ describe('Jira', function() {
             let result = jira.transitionIssue(issueId, options);
 
             // assert
-            expect(result.rejectValue.toString()).to.equal('Error: Can not transition issue FOO-666 to 323. Stack trace: bad request');
+            return result
+                .catch((err) => {
+                    expect(err.toString()).to.equal('Error: Can not transition issue FOO-666 to 323. Stack trace: bad request');
+                });
         });
 
         it('should return empty response if successful', function() {
