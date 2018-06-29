@@ -1,12 +1,7 @@
 let chai = require('chai'),
-    chaiAsPromised = require('chai-as-promised'),
     sinon = require('sinon'),
-    sinonStubPromise = require('sinon-stub-promise'),
     proxyquire = require('proxyquire'),
     expect = chai.expect;
-
-sinonStubPromise(sinon);
-chai.use(chaiAsPromised);
 
 describe('PullRequests', function() {
     let PullRequests,
@@ -137,9 +132,9 @@ describe('PullRequests', function() {
         let promise;
 
         beforeEach(function() {
-            promise = sinon.stub().returnsPromise();
+            promise = sinon.stub();
             bitbucket = {
-                refreshTokens: sinon.stub().returnsPromise()
+                refreshTokens: sinon.stub()
             };
 
             PullRequests = proxyquire('../lib/PullRequests', {
@@ -175,101 +170,119 @@ describe('PullRequests', function() {
 
         it('should use user search query instead of building new one', function() {
             // arrange
+            promise.resolves();
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            pullRequests.getPullRequests({
+            let result = pullRequests.getPullRequests({
                 q: 'state="MERGED"',
                 state: 'OPEN'
             });
 
             // assert
-            expect(promise.getCall(0).args[0].qs).to.eql({
-                q: 'state="MERGED"',
-                page: 1
+            return result.catch(() => {
+                expect(promise.getCall(0).args[0].qs).to.eql({
+                    q: 'state="MERGED"',
+                    page: 1
+                });
             });
         });
 
         it('should build new search query if q is missing', function() {
             // arrange
+            promise.resolves();
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            pullRequests.getPullRequests({
+            let result = pullRequests.getPullRequests({
                 state: 'OPEN'
             });
 
             // assert
-            expect(promise.getCall(0).args[0].qs).to.eql({
-                q: 'state="OPEN"',
-                page: 1
+            return result.catch(() => {
+                expect(promise.getCall(0).args[0].qs).to.eql({
+                    q: 'state="OPEN"',
+                    page: 1
+                });
             });
         });
 
         it('should build new search query with updated on parameter', function() {
             // arrange
+            promise.resolves();
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            pullRequests.getPullRequests({
+            let result = pullRequests.getPullRequests({
                 updatedOn: '6-06-6006'
             });
 
             // assert
-            expect(promise.getCall(0).args[0].qs).to.eql({
-                q: 'updated_on >= 6-06-6006',
-                page: 1
+            return result.catch(() => {
+                expect(promise.getCall(0).args[0].qs).to.eql({
+                    q: 'updated_on >= 6-06-6006',
+                    page: 1
+                });
             });
         });
 
         it('should build new search query with destination branch name parameter', function() {
             // arrange
+            promise.resolves();
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            pullRequests.getPullRequests({
+            let result = pullRequests.getPullRequests({
                 destinationBranch: 'foobar'
             });
 
             // assert
-            expect(promise.getCall(0).args[0].qs).to.eql({
-                q: 'destination.branch.name="foobar"',
-                page: 1
+            return result.catch(() => {
+                expect(promise.getCall(0).args[0].qs).to.eql({
+                    q: 'destination.branch.name="foobar"',
+                    page: 1
+                });
             });
         });
 
         it('should append updatedOn parameter to state', function() {
             // arrange
+            promise.resolves();
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            pullRequests.getPullRequests({
+            let result = pullRequests.getPullRequests({
                 state: 'MERGED',
                 updatedOn: '6-06-6006'
             });
 
             // assert
-            expect(promise.getCall(0).args[0].qs).to.eql({
-                q: 'state="MERGED" AND updated_on >= 6-06-6006',
-                page: 1
+            return result.catch(() => {
+                expect(promise.getCall(0).args[0].qs).to.eql({
+                    q: 'state="MERGED" AND updated_on >= 6-06-6006',
+                    page: 1
+                });
             });
         });
 
         it('should append branch name parameter to state and updatedOn', function() {
             // arrange
+            promise.resolves();
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            pullRequests.getPullRequests({
+            let result = pullRequests.getPullRequests({
                 state: 'MERGED',
                 updatedOn: '6-06-6006',
                 destinationBranch: 'foobar'
             });
 
             // assert
-            expect(promise.getCall(0).args[0].qs).to.eql({
-                q: 'state="MERGED" AND updated_on >= 6-06-6006 AND destination.branch.name="foobar"',
-                page: 1
+            return result.catch(() => {
+                expect(promise.getCall(0).args[0].qs).to.eql({
+                    q: 'state="MERGED" AND updated_on >= 6-06-6006 AND destination.branch.name="foobar"',
+                    page: 1
+                });
             });
         });
 
@@ -285,7 +298,9 @@ describe('PullRequests', function() {
             });
 
             // assert
-            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: PullRequests: Can not refresh access token. Stack trace: bad tokens');
+            return pullRequestsData.catch((err) => {
+                expect(err.toString()).to.equal('Error: PullRequests: Can not refresh access token. Stack trace: bad tokens');
+            });
         });
 
         it('should throw an error if response is rejected but can refresh tokens', function() {
@@ -300,7 +315,9 @@ describe('PullRequests', function() {
             });
 
             // assert
-            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: PullRequests: Can not refresh access token. Stack trace: Error: Maximum number of refresh token retries exceeded. Stack trace: bad request');
+            return pullRequestsData.catch((err) => {
+                expect(err.toString()).to.equal('Error: PullRequests: Can not refresh access token. Stack trace: Error: Maximum number of refresh token retries exceeded. Stack trace: bad request');
+            });
         });
 
         it('should throw an error if response is not valid JSON', function() {
@@ -314,7 +331,9 @@ describe('PullRequests', function() {
             });
 
             // assert
-            expect(pullRequestsData.rejectValue.toString()).to.equal('Error: Maximum number of refresh token retries exceeded. Stack trace: Error: Can not parse pull requests. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
+            return pullRequestsData.catch((err) => {
+                expect(err.toString()).to.equal('Error: Maximum number of refresh token retries exceeded. Stack trace: Error: Can not parse pull requests. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
+            });
         });
 
         it('should return serialized pull requests', function() {
@@ -365,7 +384,9 @@ describe('PullRequests', function() {
             });
 
             // assert
-            return expect(pullRequestsData).to.eventually.eql(expected);
+            return pullRequestsData.then((data) => {
+                expect(data).to.eql(expected);
+            });
         });
 
         it('should return serialized pull requests and skip PR id if pattern not match', function() {
@@ -416,7 +437,9 @@ describe('PullRequests', function() {
             });
 
             // assert
-            return expect(pullRequestsData).to.eventually.eql(expected);
+            return pullRequestsData.then((data) => {
+                expect(data).to.eql(expected);
+            });
         });
 
         it('should concatinate pull requests if more than one have same target branch', function() {
@@ -487,7 +510,9 @@ describe('PullRequests', function() {
             }, firstPagePrs);
 
             // assert
-            return expect(pullRequestsData).to.eventually.eql(expected);
+            return pullRequestsData.then((data) => {
+                expect(data).to.eql(expected);
+            });
         });
 
         it('should set jira URLs if option is passed', function() {
@@ -545,7 +570,9 @@ describe('PullRequests', function() {
             });
 
             // assert
-            return expect(pullRequestsData).to.eventually.eql(expected);
+            return pullRequestsData.then((data) => {
+                expect(data).to.eql(expected);
+            });
         });
 
         it('should get pull requests from second page', function() {
@@ -631,7 +658,9 @@ describe('PullRequests', function() {
             });
 
             // assert
-            return expect(pullRequestsData).to.eventually.eql(expected);
+            return pullRequestsData.then((data) => {
+                expect(data).to.eql(expected);
+            });
         });
     });
 });
