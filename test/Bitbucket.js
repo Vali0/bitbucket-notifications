@@ -143,7 +143,7 @@ describe('Bitbucket', function() {
             let result = client.obtainTokens();
 
             // assert
-            return result.then((data) => {
+            return result.then(() => {
                 expect(client.accessToken).to.equal(response.access_token);
                 expect(client.refreshToken).to.equal(response.refresh_token);
             });
