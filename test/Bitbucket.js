@@ -1,6 +1,7 @@
-let expect = require('chai').expect,
+let chai = require('chai'),
     sinon = require('sinon'),
-    proxyquire = require('proxyquire');
+    proxyquire = require('proxyquire'),
+    expect = chai.expect;
 
 describe('Bitbucket', function() {
     let Bitbucket,
@@ -94,7 +95,7 @@ describe('Bitbucket', function() {
         let promise;
 
         beforeEach(function() {
-            promise = sinon.stub().returnsPromise();
+            promise = sinon.stub();
 
             Bitbucket = proxyquire('../lib/Bitbucket', {
                 'request-promise': promise
@@ -110,7 +111,9 @@ describe('Bitbucket', function() {
             let result = client.obtainTokens();
 
             // assert
-            expect(result.rejectValue.toString()).to.equal('Error: Can not fetch client tokens. Stack trace: foobar');
+            return result.catch((err) => {
+                expect(err.toString()).to.equal('Error: Can not fetch client tokens. Stack trace: foobar');
+            });
         });
 
         it('should throw an error if response is not valid JSON', function() {
@@ -122,7 +125,9 @@ describe('Bitbucket', function() {
             let result = client.obtainTokens();
 
             // assert
-            expect(result.rejectValue.toString()).to.equal('Error: Can not fetch client tokens. Stack trace: Error: Cannot parse tokens. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
+            return result.catch((err) => {
+                expect(err.toString()).to.equal('Error: Can not fetch client tokens. Stack trace: Error: Cannot parse tokens. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
+            });
         });
 
         it('should set access and refresh tokens if request is successful', function() {
@@ -135,11 +140,13 @@ describe('Bitbucket', function() {
 
             // act
             let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
-            client.obtainTokens();
+            let result = client.obtainTokens();
 
             // assert
-            expect(client.accessToken).to.equal(response.access_token);
-            expect(client.refreshToken).to.equal(response.refresh_token);
+            return result.then(() => {
+                expect(client.accessToken).to.equal(response.access_token);
+                expect(client.refreshToken).to.equal(response.refresh_token);
+            });
         });
     });
 
@@ -147,7 +154,7 @@ describe('Bitbucket', function() {
         let promise;
 
         beforeEach(function() {
-            promise = sinon.stub().returnsPromise();
+            promise = sinon.stub();
 
             Bitbucket = proxyquire('../lib/Bitbucket', {
                 'request-promise': promise
@@ -163,7 +170,9 @@ describe('Bitbucket', function() {
             let result = client.refreshTokens();
 
             // assert
-            expect(result.rejectValue.toString()).to.equal('Error: Can not refresh access token by given refresh: refreshToken. Stack trace: foobar');
+            return result.catch((err) => {
+                expect(err.toString()).to.equal('Error: Can not refresh access token by given refresh: refreshToken. Stack trace: foobar');
+            });
         });
 
         it('should throw an error if response is not valid JSON', function() {
@@ -175,8 +184,9 @@ describe('Bitbucket', function() {
             let result = client.refreshTokens();
 
             // assert
-            expect(result.rejectValue.toString()).to.equal('Error: Can not refresh access token by given refresh: refreshToken. Stack trace: Error: Cannot parse tokens. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
-
+            return result.catch((err) => {
+                expect(err.toString()).to.equal('Error: Can not refresh access token by given refresh: refreshToken. Stack trace: Error: Cannot parse tokens. Stack trace: SyntaxError: Unexpected token o in JSON at position 1');
+            });
         });
 
         it('should refresh access token by given refresh token', function() {
@@ -188,10 +198,12 @@ describe('Bitbucket', function() {
 
             // act
             let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
-            client.refreshTokens();
+            let result = client.refreshTokens();
 
             // assert
-            expect(client.accessToken).to.equal(response.access_token);
+            return result.then(() => {
+                expect(client.accessToken).to.equal(response.access_token);
+            });
         });
     });
 
