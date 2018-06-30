@@ -193,10 +193,9 @@ describe('Jira', function() {
             let result = jira.transitionIssue(issueId, options);
 
             // assert
-            return result
-                .catch((err) => {
-                    expect(err.toString()).to.equal('Error: Can not transition issue FOO-666 to 323. Stack trace: bad request');
-                });
+            return result.catch((err) => {
+                expect(err.toString()).to.equal('Error: Can not transition issue FOO-666 to 323. Stack trace: bad request');
+            });
         });
 
         it('should return empty response if successful', function() {

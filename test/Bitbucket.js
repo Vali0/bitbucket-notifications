@@ -170,9 +170,9 @@ describe('Bitbucket', function() {
             let result = client.refreshTokens();
 
             // assert
-            expect(result.catch((err) => {
+            return result.catch((err) => {
                 expect(err.toString()).to.equal('Error: Can not refresh access token by given refresh: refreshToken. Stack trace: foobar');
-            }));
+            });
         });
 
         it('should throw an error if response is not valid JSON', function() {
