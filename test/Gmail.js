@@ -106,7 +106,6 @@ describe('Gmail', function() {
         let nodemailer = {},
             transporter = {},
             sender,
-            recipientsObject,
             subject,
             content,
             gmail;

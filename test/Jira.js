@@ -245,7 +245,7 @@ describe('Jira', function() {
 
             // act
             let jira = new Jira(domain, username, authorisationToken);
-            let result = jira.transitionIssue(issueId, options);
+            jira.transitionIssue(issueId, options);
 
             // assert
             expect(promise.callCount).to.equal(1);

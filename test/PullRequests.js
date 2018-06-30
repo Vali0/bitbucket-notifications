@@ -64,6 +64,23 @@ describe('PullRequests', function() {
             expect(pullPequests.options).to.eql(expected);
         });
 
+        it('should set options if not all are passed', function() {
+            // arrange
+            let expected = {
+                regExp: /[a-zA-Z]{2-5}-[0-9]{2-5}/,
+                addJiraLinks: false,
+                jira: undefined
+            };
+
+            // act
+            let pullPequests = new PullRequests(bitbucket, username, repoSlug, {
+                regExp: /[a-zA-Z]{2-5}-[0-9]{2-5}/
+            });
+
+            // assert
+            expect(pullPequests.options).to.eql(expected);
+        });
+
         it('should set options if all are passed', function() {
             // arrange
             let expected = {
@@ -161,7 +178,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 q: 'state="MERGED"',
                 state: 'OPEN'
             });
@@ -178,7 +195,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 state: 'OPEN'
             });
 
@@ -194,7 +211,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 updatedOn: '6-06-6006'
             });
 
@@ -210,7 +227,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 destinationBranch: 'foobar'
             });
 
@@ -226,7 +243,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 state: 'MERGED',
                 updatedOn: '6-06-6006'
             });
@@ -243,7 +260,7 @@ describe('PullRequests', function() {
 
             // act
             let pullRequests = new PullRequests(bitbucket, username, repoSlug);
-            let pullRequestsData = pullRequests.getPullRequests({
+            pullRequests.getPullRequests({
                 state: 'MERGED',
                 updatedOn: '6-06-6006',
                 destinationBranch: 'foobar'

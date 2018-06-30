@@ -135,7 +135,7 @@ describe('Bitbucket', function() {
 
             // act
             let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
-            let result = client.obtainTokens();
+            client.obtainTokens();
 
             // assert
             expect(client.accessToken).to.equal(response.access_token);
@@ -188,7 +188,7 @@ describe('Bitbucket', function() {
 
             // act
             let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
-            let result = client.refreshTokens();
+            client.refreshTokens();
 
             // assert
             expect(client.accessToken).to.equal(response.access_token);
@@ -213,7 +213,7 @@ describe('Bitbucket', function() {
 
             // act
             let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
-            let result = client.pullRequests(username, repoSlug);
+            client.pullRequests(username, repoSlug);
 
             // assert
             expect(PullRequests.callCount).to.equal(1);
