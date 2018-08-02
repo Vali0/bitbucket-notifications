@@ -90,7 +90,8 @@ module.exports = {
         "id-blacklist": "error",
         "id-length": [
             "error", {
-                "properties": "never"
+                "properties": "never",
+                "exceptions": ["i", "j", "l"]
             }
         ],
         "id-match": "error",
@@ -168,7 +169,11 @@ module.exports = {
         "no-octal-escape": "error",
         "no-param-reassign": "error",
         "no-path-concat": "error",
-        "no-plusplus": "error",
+        "no-plusplus": [
+            "error", {
+                "allowForLoopAfterthoughts": true
+            }
+        ],
         "no-process-env": "error",
         "no-process-exit": "error",
         "no-proto": "error",
