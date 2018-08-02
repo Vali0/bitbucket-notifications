@@ -202,6 +202,5 @@ pullRequests.getPullRequests({
 
 # Known issues
 * All TODO across the code
-* Tokens do not update automatically in config json
 * Pull requests query to be build with different than AND operator
 * Ability to pass standard date time or string to getPullRequests and internally convert them to ISO-8601 format

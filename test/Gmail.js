@@ -148,6 +148,10 @@ describe('Gmail', function() {
             gmail = new Gmail(credentials);
         });
 
+        after(function () {
+            console.log.restore();
+        });
+
         it('should throw an exception if sender email is missing', function() {
             // arrange
 
