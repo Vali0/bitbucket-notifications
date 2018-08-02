@@ -5,11 +5,13 @@ let chai = require('chai'),
 
 describe('Jira', function() {
     let Jira,
+        credentials,
         domain,
         username,
         authorisationToken;
 
     beforeEach(function() {
+        credentials = {};
         domain = 'myJira';
         username = 'jane.doe';
         authorisationToken = 'token666';
@@ -24,7 +26,7 @@ describe('Jira', function() {
             // arrange
 
             // act
-            let jira = new Jira();
+            let jira = new Jira(credentials);
 
             // assert
             expect(jira._domain).to.be.undefined;
@@ -34,7 +36,7 @@ describe('Jira', function() {
             // arrange
 
             // act
-            let jira = new Jira();
+            let jira = new Jira(credentials);
 
             // assert
             expect(jira._transitionUrl).to.be.undefined;
@@ -42,9 +44,10 @@ describe('Jira', function() {
 
         it('should create Jira instance by given domain name', function() {
             // arrange
+            credentials.domain = domain;
 
             // act
-            let jira = new Jira(domain);
+            let jira = new Jira(credentials);
 
             // assert
             expect(jira).to.eql({
@@ -58,9 +61,12 @@ describe('Jira', function() {
 
         it('should create Jira instance by given domain name, username and authorisation token', function() {
             // arrange
+            credentials.domain = domain;
+            credentials.username = username;
+            credentials.authorisationToken = authorisationToken;
 
             // act
-            let jira = new Jira(domain, username, authorisationToken);
+            let jira = new Jira(credentials);
 
             // assert
             expect(jira).to.eql({
@@ -80,9 +86,10 @@ describe('Jira', function() {
 
         it('should return null if ticket id is missing', function() {
             // arrange
+            credentials.domain = domain;
 
             // act
-            let jira = new Jira(domain);
+            let jira = new Jira(credentials);
             let browseUrl = jira.generateBrowseUrl();
 
             // assert
@@ -93,7 +100,7 @@ describe('Jira', function() {
             // arrange
 
             // act
-            let jira = new Jira();
+            let jira = new Jira(credentials);
             let browseUrl = jira.generateBrowseUrl();
 
             // assert
@@ -102,10 +109,11 @@ describe('Jira', function() {
 
         it('should return browse url if ticket id and domain are passed', function() {
             // arrange
+            credentials.domain = domain;
             let expected = 'https://myJira.atlassian.net/browse/FOO-666';
 
             // act
-            let jira = new Jira(domain);
+            let jira = new Jira(credentials);
             let browseUrl = jira.generateBrowseUrl('FOO-666');
 
             // assert
@@ -126,9 +134,10 @@ describe('Jira', function() {
 
         it('should throw an error if username is missing', function() {
             // arrange
+            credentials.domain = domain;
 
             // act
-            let jira = new Jira(domain);
+            let jira = new Jira(credentials);
             let result = function() {
                 jira.transitionIssue();
             };
@@ -139,9 +148,11 @@ describe('Jira', function() {
 
         it('should throw an error if authorisation token is missing', function() {
             // arrange
+            credentials.domain = domain;
+            credentials.username = username;
 
             // act
-            let jira = new Jira(domain, username);
+            let jira = new Jira(credentials);
             let result = function() {
                 jira.transitionIssue();
             };
@@ -152,9 +163,12 @@ describe('Jira', function() {
 
         it('should throw an error if issue id is not passed to the function', function() {
             // arrange
+            credentials.domain = domain;
+            credentials.username = username;
+            credentials.authorisationToken = authorisationToken;
 
             // act
-            let jira = new Jira(domain, username, authorisationToken);
+            let jira = new Jira(credentials);
             let result = function() {
                 jira.transitionIssue();
             };
@@ -165,10 +179,14 @@ describe('Jira', function() {
 
         it('should throw an error if no options are passed', function() {
             // arrange
+            credentials.domain = domain;
+            credentials.username = username;
+            credentials.authorisationToken = authorisationToken;
+
             let issueId = 'FOO-666';
 
             // act
-            let jira = new Jira(domain, username, authorisationToken);
+            let jira = new Jira(credentials);
             let result = function() {
                 jira.transitionIssue(issueId);
             };
@@ -179,6 +197,10 @@ describe('Jira', function() {
 
         it('should throw an error if request cannot be fulfilled', function() {
             // arrange
+            credentials.domain = domain;
+            credentials.username = username;
+            credentials.authorisationToken = authorisationToken;
+
             let issueId = 'FOO-666',
                 options = {};
 
@@ -189,7 +211,7 @@ describe('Jira', function() {
             promise.rejects('bad request');
 
             // act
-            let jira = new Jira(domain, username, authorisationToken);
+            let jira = new Jira(credentials);
             let result = jira.transitionIssue(issueId, options);
 
             // assert
@@ -200,6 +222,10 @@ describe('Jira', function() {
 
         it('should return empty response if successful', function() {
             // arrange
+            credentials.domain = domain;
+            credentials.username = username;
+            credentials.authorisationToken = authorisationToken;
+
             let issueId = 'FOO-666',
                 options = {};
 
@@ -210,7 +236,7 @@ describe('Jira', function() {
             promise.resolves();
 
             // act
-            let jira = new Jira(domain, username, authorisationToken);
+            let jira = new Jira(credentials);
             let result = jira.transitionIssue(issueId, options);
 
             // assert
@@ -219,6 +245,10 @@ describe('Jira', function() {
 
         it('should call jira with correct body', function() {
             // arrange
+            credentials.domain = domain;
+            credentials.username = username;
+            credentials.authorisationToken = authorisationToken;
+
             let expected = {
                 method: 'POST',
                 uri: 'https://myJira.atlassian.net/rest/api/2/issue/FOO-666/transitions',
@@ -241,7 +271,7 @@ describe('Jira', function() {
             promise.resolves();
 
             // act
-            let jira = new Jira(domain, username, authorisationToken);
+            let jira = new Jira(credentials);
             jira.transitionIssue(issueId, options);
 
             // assert

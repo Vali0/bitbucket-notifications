@@ -4,7 +4,8 @@ let chai = require('chai'),
     expect = chai.expect;
 
 describe('Gmail', function() {
-    let user,
+    let credentials,
+        user,
         clientId,
         clientSecret,
         accessToken,
@@ -12,6 +13,7 @@ describe('Gmail', function() {
         Gmail;
 
     beforeEach(function() {
+        credentials = {};
         user = 'userName';
         clientId = 'clientId';
         clientSecret = 'clientSecret';
@@ -29,7 +31,7 @@ describe('Gmail', function() {
 
             // act
             let gmail = function() {
-                return new Gmail();
+                return new Gmail(credentials);
             };
 
             // assert
@@ -38,10 +40,11 @@ describe('Gmail', function() {
 
         it('should throw an exception if client id is missing', function() {
             // arrange
+            credentials.user = user;
 
             // act
             let gmail = function() {
-                return new Gmail(user);
+                return new Gmail(credentials);
             };
 
             // assert
@@ -50,10 +53,12 @@ describe('Gmail', function() {
 
         it('should throw an exception if client secret is missing', function() {
             // arrange
+            credentials.user = user;
+            credentials.clientId = clientId;
 
             // act
             let gmail = function() {
-                return new Gmail(user, clientId);
+                return new Gmail(credentials);
             };
 
             // assert
@@ -62,10 +67,13 @@ describe('Gmail', function() {
 
         it('should throw an exception if access token is missing', function() {
             // arrange
+            credentials.user = user;
+            credentials.clientId = clientId;
+            credentials.clientSecret = clientSecret;
 
             // act
             let gmail = function() {
-                return new Gmail(user, clientId, clientSecret);
+                return new Gmail(credentials);
             };
 
             // assert
@@ -74,10 +82,14 @@ describe('Gmail', function() {
 
         it('should throw an exception if refresh token is missing', function() {
             // arrange
+            credentials.user = user;
+            credentials.clientId = clientId;
+            credentials.clientSecret = clientSecret;
+            credentials.accessToken = accessToken;
 
             // act
             let gmail = function() {
-                return new Gmail(user, clientId, clientSecret, accessToken);
+                return new Gmail(credentials);
             };
 
             // assert
@@ -86,9 +98,14 @@ describe('Gmail', function() {
 
         it('should return new instance of Gmail client', function() {
             // arrange
+            credentials.user = user;
+            credentials.clientId = clientId;
+            credentials.clientSecret = clientSecret;
+            credentials.accessToken = accessToken;
+            credentials.refreshToken = refreshToken;
 
             // act
-            let gmail = new Gmail(user, clientId, clientSecret, accessToken, refreshToken);
+            let gmail = new Gmail(credentials);
 
             // assert
             expect(gmail).to.be.ok;
@@ -111,6 +128,12 @@ describe('Gmail', function() {
             gmail;
 
         beforeEach(function() {
+            credentials.user = user;
+            credentials.clientId = clientId;
+            credentials.clientSecret = clientSecret;
+            credentials.accessToken = accessToken;
+            credentials.refreshToken = refreshToken;
+
             sender = 'jane@gmail.com';
             subject = 'Merged pull requests in last 24h';
             content = '<h1>Foobar</h1>';
@@ -122,7 +145,7 @@ describe('Gmail', function() {
                 'nodemailer': nodemailer
             });
 
-            gmail = new Gmail(user, clientId, clientSecret, accessToken, refreshToken);
+            gmail = new Gmail(credentials);
         });
 
         it('should throw an exception if sender email is missing', function() {

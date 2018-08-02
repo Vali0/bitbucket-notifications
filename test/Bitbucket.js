@@ -5,12 +5,14 @@ let chai = require('chai'),
 
 describe('Bitbucket', function() {
     let Bitbucket,
+        credentials,
         clientId,
         clientSecret,
         accessToken,
         refreshToken;
 
     beforeEach(function() {
+        credentials = {};
         clientId = 'clientId';
         clientSecret = 'clientSecret';
         accessToken = 'accessToken';
@@ -27,7 +29,7 @@ describe('Bitbucket', function() {
 
             // act
             let client = function() {
-                new Bitbucket();
+                new Bitbucket(credentials);
             };
 
             // assert
@@ -36,10 +38,11 @@ describe('Bitbucket', function() {
 
         it('should throw an error if client secret is missing', function() {
             // arrange
+            credentials.clientId = clientId;
 
             // act
             let client = function() {
-                new Bitbucket(clientId);
+                new Bitbucket(credentials);
             };
 
             // assert
@@ -48,10 +51,12 @@ describe('Bitbucket', function() {
 
         it('should throw an error if access token is missing', function() {
             // arrange
+            credentials.clientId = clientId;
+            credentials.clientSecret = clientSecret;
 
             // act
             let client = function() {
-                new Bitbucket(clientId, clientSecret);
+                new Bitbucket(credentials);
             };
 
             // assert
@@ -60,10 +65,13 @@ describe('Bitbucket', function() {
 
         it('should throw an error if refresh token is missing', function() {
             // arrange
+            credentials.clientId = clientId;
+            credentials.clientSecret = clientSecret;
+            credentials.accessToken = accessToken;
 
             // act
             let client = function() {
-                new Bitbucket(clientId, clientSecret, accessToken);
+                new Bitbucket(credentials);
             };
 
             // assert
@@ -72,9 +80,13 @@ describe('Bitbucket', function() {
 
         it('should return bitbucket instance if all parameters are passed correctly', function() {
             // arrange
+            credentials.clientId = clientId;
+            credentials.clientSecret = clientSecret;
+            credentials.accessToken = accessToken;
+            credentials.refreshToken = refreshToken;
 
             // act
-            let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
+            let client = new Bitbucket(credentials);
 
             // assert
             expect(client).to.be.ok;
@@ -92,13 +104,25 @@ describe('Bitbucket', function() {
     });
 
     describe('obtainTokens', function() {
-        let promise;
+        let configModule,
+            promise;
 
         beforeEach(function() {
+            configModule = {
+                read: sinon.stub(),
+                write: sinon.stub()
+            };
+
+            credentials.clientId = clientId;
+            credentials.clientSecret = clientSecret;
+            credentials.accessToken = accessToken;
+            credentials.refreshToken = refreshToken;
+
             promise = sinon.stub();
 
             Bitbucket = proxyquire('../lib/Bitbucket', {
-                'request-promise': promise
+                'request-promise': promise,
+                './config': configModule
             });
         });
 
@@ -107,7 +131,7 @@ describe('Bitbucket', function() {
             promise.rejects('foobar');
 
             // act
-            let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
+            let client = new Bitbucket(credentials);
             let result = client.obtainTokens();
 
             // assert
@@ -121,7 +145,7 @@ describe('Bitbucket', function() {
             promise.resolves('not valid JSON');
 
             // act
-            let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
+            let client = new Bitbucket(credentials);
             let result = client.obtainTokens();
 
             // assert
@@ -139,7 +163,7 @@ describe('Bitbucket', function() {
             promise.resolves(JSON.stringify(response));
 
             // act
-            let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
+            let client = new Bitbucket(credentials);
             let result = client.obtainTokens();
 
             // assert
@@ -151,13 +175,25 @@ describe('Bitbucket', function() {
     });
 
     describe('refreshTokens', function() {
-        let promise;
+        let configModule,
+            promise;
 
         beforeEach(function() {
+            configModule = {
+                read: sinon.stub(),
+                write: sinon.stub()
+            };
+
+            credentials.clientId = clientId;
+            credentials.clientSecret = clientSecret;
+            credentials.accessToken = accessToken;
+            credentials.refreshToken = refreshToken;
+
             promise = sinon.stub();
 
             Bitbucket = proxyquire('../lib/Bitbucket', {
-                'request-promise': promise
+                'request-promise': promise,
+                './config': configModule
             });
         });
 
@@ -166,7 +202,7 @@ describe('Bitbucket', function() {
             promise.rejects('foobar');
 
             // act
-            let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
+            let client = new Bitbucket(credentials);
             let result = client.refreshTokens();
 
             // assert
@@ -180,7 +216,7 @@ describe('Bitbucket', function() {
             promise.resolves('not valid JSON');
 
             // act
-            let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
+            let client = new Bitbucket(credentials);
             let result = client.refreshTokens();
 
             // assert
@@ -197,7 +233,7 @@ describe('Bitbucket', function() {
             promise.resolves(JSON.stringify(response));
 
             // act
-            let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
+            let client = new Bitbucket(credentials);
             let result = client.refreshTokens();
 
             // assert
@@ -211,6 +247,11 @@ describe('Bitbucket', function() {
         let PullRequests;
 
         beforeEach(function() {
+            credentials.clientId = clientId;
+            credentials.clientSecret = clientSecret;
+            credentials.accessToken = accessToken;
+            credentials.refreshToken = refreshToken;
+
             PullRequests = sinon.stub();
 
             Bitbucket = proxyquire('../lib/Bitbucket', {
@@ -224,7 +265,7 @@ describe('Bitbucket', function() {
                 repoSlug = 'repoSlug';
 
             // act
-            let client = new Bitbucket(clientId, clientSecret, accessToken, refreshToken);
+            let client = new Bitbucket(credentials);
             client.pullRequests(username, repoSlug);
 
             // assert
