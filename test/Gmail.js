@@ -149,7 +149,7 @@ describe('Gmail', function() {
         });
 
         after(function () {
-            console.log.restore();
+            console.log.restore(); // eslint-disable-line no-console
         });
 
         it('should throw an exception if sender email is missing', function() {

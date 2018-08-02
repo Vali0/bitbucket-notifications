@@ -21,7 +21,7 @@ describe('config', function() {
     describe('read', function() {
         it('should throw an exception if file can not be found', function() {
             // arrange
-            fs.readFileSync.throws('File could not be found!');
+            fs.readFileSync.throws('File could not be found!'); // eslint-disable-line no-sync
 
             // act
             let result = function() {
@@ -34,7 +34,7 @@ describe('config', function() {
 
         it('should throw an exception if file can not be parsed', function() {
             // arrange
-            fs.readFileSync.returns("{invalidJSON}");
+            fs.readFileSync.returns("{invalidJSON}"); // eslint-disable-line no-sync
 
             // act
             let result = function() {
@@ -51,7 +51,7 @@ describe('config', function() {
                 jane: 'doe'
             };
 
-            fs.readFileSync.returns(JSON.stringify(expected));
+            fs.readFileSync.returns(JSON.stringify(expected)); // eslint-disable-line no-sync
 
             // act
             let result = config.read('filePath');
@@ -72,12 +72,12 @@ describe('config', function() {
                 jane: 'doe'
             };
 
-            fs.readFileSync.returns(JSON.stringify(data));
+            fs.readFileSync.returns(JSON.stringify(data)); // eslint-disable-line no-sync
             config.read('filePath');
         });
 
         afterEach(function() {
-            console.log.restore();
+            console.log.restore(); // eslint-disable-line no-console
         });
 
         it('should throw an error if file could not be written', function() {
@@ -85,11 +85,11 @@ describe('config', function() {
 
             // act
             let result = function() {
-                let data = config.write([]);
+                let response = config.write([]);
 
                 fs.writeFile.yield('Can not write file');
 
-                return data;
+                return response;
             };
 
             // assert
