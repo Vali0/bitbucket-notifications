@@ -109,7 +109,6 @@ describe('Bitbucket', function() {
 
         beforeEach(function() {
             configModule = {
-                read: sinon.stub(),
                 write: sinon.stub()
             };
 
@@ -172,6 +171,32 @@ describe('Bitbucket', function() {
                 expect(client.refreshToken).to.equal(response.refresh_token);
             });
         });
+
+        it('should call configuration module with access and refresh token pairs', function() {
+            // arrange
+            let response = {
+                    access_token: 'newAccessToken',
+                    refresh_token: 'newRefreshToken'
+                },
+                expected = [{
+                    key: 'bitbucket.accessToken',
+                    value: 'newAccessToken'
+                }, {
+                    key: 'bitbucket.refreshToken',
+                    value: 'newRefreshToken'
+                }];
+            promise.resolves(JSON.stringify(response));
+
+            // act
+            let client = new Bitbucket(credentials);
+            let result = client.obtainTokens();
+
+            // assert
+            return result.then(() => {
+                expect(configModule.write.callCount).to.equal(1);
+                expect(configModule.write.args[0][0]).to.eql(expected);
+            });
+        });
     });
 
     describe('refreshTokens', function() {
@@ -180,7 +205,6 @@ describe('Bitbucket', function() {
 
         beforeEach(function() {
             configModule = {
-                read: sinon.stub(),
                 write: sinon.stub()
             };
 
@@ -239,6 +263,29 @@ describe('Bitbucket', function() {
             // assert
             return result.then(() => {
                 expect(client.accessToken).to.equal(response.access_token);
+            });
+        });
+
+        it('should call configuration module with new access token', function() {
+            // arrange
+            let response = {
+                    access_token: 'newAccessToken'
+                },
+                expected = [{
+                    key: 'bitbucket.accessToken',
+                    value: 'newAccessToken'
+                }];
+
+            promise.resolves(JSON.stringify(response));
+
+            // act
+            let client = new Bitbucket(credentials);
+            let result = client.refreshTokens();
+
+            // assert
+            return result.then(() => {
+                expect(configModule.write.callCount).to.equal(1);
+                expect(configModule.write.args[0][0]).to.eql(expected);
             });
         });
     });
