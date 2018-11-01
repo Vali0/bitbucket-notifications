@@ -22,7 +22,8 @@ describe('Gmail', function () {
     });
 
     describe('constructor', function () {
-        this.timeout(3000); // For some reason this describe with proxyquire is reaching timeout of 2000ms. Require is working just fine though
+        // For some reason this describe with proxyquire is reaching timeout of 2000ms. Require is working just fine though
+        this.timeout(3000);
         let path = {};
 
         beforeEach(function () {
@@ -139,7 +140,7 @@ describe('Gmail', function () {
             credentials.refreshToken = refreshToken;
             credentials.options = {
                 templatePath: 'templatePath'
-            }
+            };
 
             path.join.returns('templatePath');
 
@@ -163,7 +164,7 @@ describe('Gmail', function () {
 
     describe('compileTemplate', function () {
         let pug = {},
-            gmail
+            gmail;
 
         beforeEach(function () {
             credentials.user = user;
