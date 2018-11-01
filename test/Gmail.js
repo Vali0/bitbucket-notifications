@@ -23,7 +23,7 @@ describe('Gmail', function () {
 
     describe('constructor', function () {
         // For some reason this describe with proxyquire is reaching timeout of 2000ms. Require is working just fine though
-        this.timeout(3000);
+        this.timeout(4000);
         let path = {};
 
         beforeEach(function () {
