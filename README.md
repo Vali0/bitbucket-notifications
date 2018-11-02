@@ -133,7 +133,7 @@ pullRequests.getPullRequests({
 ## Gmail
 
 ### compileTemplate(context)
-Compiles template by given context. If template is missing from user configuration build in template will be used
+Compiles template by given context. If template is missing from user configuration build in template will be used. Template engine is pug.
 
 - `context` - Template context object. Build in template expects an following object
 ```Object
@@ -225,7 +225,7 @@ pullRequests.getPullRequests({
 * `request` - OAuth2 and API requests
 * `request-promise` - OAuth2 and API requests
 * `moment` - used in example to fetch pull requests 24h hours behind in ISO-8601 format
-* `handlebars` - used in example to generate email template for given context
+* `pug` - used in example to generate email template for given context
 
 # Roadmap
 * Looking for ideas :)
