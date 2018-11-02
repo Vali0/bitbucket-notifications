@@ -1,6 +1,6 @@
 {
     "name": "bitbucket-notifications",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "description": "Node.js application which can send an email with links to all PRs that have been merged in last 24 hours. It connects to Bitbucket, Gmail and Jira with OAuth2 for higher security by simply adding your credentials in configuration file.",
     "main": "index.js",
     "scripts": {
@@ -35,9 +35,9 @@
     },
     "license": "MIT",
     "dependencies": {
-        "handlebars": "^4.0.11",
         "moment": "^2.22.2",
         "nodemailer": "^4.6.7",
+        "pug": "^2.0.3",
         "request": "^2.87.0",
         "request-promise": "^4.2.2"
     },
@@ -49,7 +49,7 @@
         "mocha": "^5.2.0",
         "mocha-lcov-reporter": "^1.3.0",
         "proxyquire": "^2.0.1",
-        "sinon": "^6.0.1"
+        "sinon": "^7.1.1"
     },
     "engines": {
         "node": ">=8.9.4"

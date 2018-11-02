@@ -1,0 +1,17 @@
+table(cellspacing="0" cellpadding="10" style="border-collapse: collapse;font-family: Arial, Helvetica, sans-serif;border: 1px solid #999;text-align: left;")
+    each pullRequests, key in data
+        thead
+            tr
+                th(colspan="2" style="font-family: Arial, Helvetica, sans-serif;font-size: 19px;text-align: left;background: #666;border: 1px solid #666;color: #fff;")
+                    = key
+                th(style="font-family: Arial, Helvetica, sans-serif;font-size: 19px;text-align: left;background: #666;border: 1px solid #666;color: #fff;")
+                    | Author
+        tbody
+            each pullRequest in pullRequests
+                tr
+                    td(style="font-family: Arial, Helvetica, sans-serif;border: 1px solid #999;text-align: left;" valign="top")
+                        a(href="{{this.jiraUrl}}")= pullRequest.id
+                    td(style="font-family: Arial, Helvetica, sans-serif;border: 1px solid #999;text-align: left;" valign="top")
+                        a(href="{{this.prUrl}}")= pullRequest.title
+                    td(style="font-family: Arial, Helvetica, sans-serif;border: 1px solid #999;text-align: left;" valign="top")
+                        a(href="{{this.author.account}}")= pullRequest.author.displayName

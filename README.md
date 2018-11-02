@@ -27,6 +27,7 @@ In order to setup this module you have to do following steps
 .
 ├── config
 │   └── default.json
+│   └── emailTemplate.pug // optional
 └── index.js
 ```
 * Inside config folder create new file called default.json with following parameters
@@ -43,7 +44,10 @@ In order to setup this module you have to do following steps
         "clientId": "clientId",
         "clientSecret": "clientSecret",
         "accessToken": "accessToken",
-        "refreshToken": "refreshToken"
+        "refreshToken": "refreshToken",
+        "options" : { // Optional
+            "templatePath": "emailTemplate.pug"
+        }
     },
     "jira": {
         "domain": "domain",
@@ -52,7 +56,7 @@ In order to setup this module you have to do following steps
     }
 }
 ```
-* Inside default.json replace clientId, secret, access token and refresh token. Bitbucket allow you to obtain tokens without client confirmation. To do this you can use client.obtainTokens(). Despite Google services where you must consent rights. So you have to manualy obtain your refresh token by calling Google OAuth2. For Jira token you must generate API token for your username through Jira interface
+* Inside default.json replace clientId, secret, access token and refresh token. Bitbucket allow you to obtain tokens without client confirmation. To do this you can use client.obtainTokens(). Despite Google services where you must consent rights. So you have to manualy obtain your refresh token by calling Google OAuth2. For Jira token you must generate API token for your username through Jira interface. gmail.options are optional if you want to add your own template you can place it in config folder with .pug extension and add this name to templatePath property. If you omit gmail.options.templatePath build in tempalte will be used.
 * in your index.js write `var bbnotify = require('bitbucket-notifications');`. This will return an object with bitbucket, gmail and jira clients
 * You are ready to go!
 
@@ -127,6 +131,32 @@ pullRequests.getPullRequests({
 ```
 
 ## Gmail
+
+### compileTemplate(context)
+Compiles template by given context. If template is missing from user configuration build in template will be used
+
+- `context` - Template context object. Build in template expects an following object
+```Object
+{
+    data: pullRequestsList
+}
+```
+
+If no error compiled template will be returned
+
+In case of error exception will be thrown
+
+```javascript
+pullRequests.getPullRequests({
+        q: queryString
+    })
+    .then(pullRequestsList => {
+        let content = gmail.compileTemplate({
+            data: pullRequestsList
+        });
+    });
+```
+
 ### sendEmail(sender, recipients, subject, content)
 Sends email to given list of recipients
 
