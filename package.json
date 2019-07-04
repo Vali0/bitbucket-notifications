@@ -1,57 +1,61 @@
 {
-    "name": "bitbucket-notifications",
-    "version": "1.2.6",
-    "description": "Node.js application which can send an email with links to all PRs that have been merged in last 24 hours. It connects to Bitbucket, Gmail and Jira with OAuth2 for higher security by simply adding your credentials in configuration file.",
-    "main": "index.js",
-    "scripts": {
-        "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-        "lint": "eslint ./lib ./test",
-        "devCoverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
-    },
-    "homepage": "https://github.com/Vali0/bitbucket-notifications/#readme",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Vali0/bitbucket-notifications"
-    },
-    "bugs": {
-        "url": "https://github.com/Vali0/bitbucket-notifications/issues"
-    },
-    "keywords": [
-        "gmail",
-        "bitbucket",
-        "jira",
-        "push notifications",
-        "notifications",
-        "nodejs",
-        "node",
-        "javascript",
-        "nodemailer",
-        "OAuth2"
-    ],
-    "author": {
-        "name": "Valentin Radev",
-        "email": "mr.v.radev@gmail.com",
-        "url": "https://github.com/Vali0"
-    },
-    "license": "MIT",
-    "dependencies": {
-        "moment": "^2.22.2",
-        "nodemailer": "^4.6.7",
-        "pug": "^2.0.3",
-        "request": "^2.87.0",
-        "request-promise": "^4.2.2"
-    },
-    "devDependencies": {
-        "chai": "^4.1.2",
-        "coveralls": "^3.0.1",
-        "eslint": "^5.0.1",
-        "istanbul": "^0.4.5",
-        "mocha": "^5.2.0",
-        "mocha-lcov-reporter": "^1.3.0",
-        "proxyquire": "^2.0.1",
-        "sinon": "^7.1.1"
-    },
-    "engines": {
-        "node": ">=8.9.4"
-    }
+  "name": "bitbucket-notifications",
+  "version": "1.2.6",
+  "description": "Node.js application which can send an email with links to all PRs that have been merged in last 24 hours. It connects to Bitbucket, Gmail and Jira with OAuth2 for higher security by simply adding your credentials in configuration file.",
+  "main": "index.js",
+  "scripts": {
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "lint": "eslint ./lib ./test",
+    "devCoverage": "istanbul cover ./node_modules/mocha/bin/_mocha",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "homepage": "https://github.com/Vali0/bitbucket-notifications/#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vali0/bitbucket-notifications"
+  },
+  "bugs": {
+    "url": "https://github.com/Vali0/bitbucket-notifications/issues"
+  },
+  "keywords": [
+    "gmail",
+    "bitbucket",
+    "jira",
+    "push notifications",
+    "notifications",
+    "nodejs",
+    "node",
+    "javascript",
+    "nodemailer",
+    "OAuth2"
+  ],
+  "author": {
+    "name": "Valentin Radev",
+    "email": "mr.v.radev@gmail.com",
+    "url": "https://github.com/Vali0"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.22.2",
+    "nodemailer": "^4.6.7",
+    "pug": "^2.0.3",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2",
+    "snyk": "^1.189.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.1",
+    "eslint": "^5.0.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0",
+    "mocha-lcov-reporter": "^1.3.0",
+    "proxyquire": "^2.0.1",
+    "sinon": "^7.1.1"
+  },
+  "engines": {
+    "node": ">=8.9.4"
+  },
+  "snyk": true
 }
