@@ -14,6 +14,7 @@
     },
     "jira": {
         "domain": "",
+        "selfHosted": false,
         "username": "",
         "authorisationToken": ""
     }

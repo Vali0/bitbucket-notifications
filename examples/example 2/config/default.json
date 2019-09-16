@@ -13,6 +13,9 @@
         "refreshToken": ""
     },
     "jira": {
-        "domain": ""
+        "domain": "",
+        "selfHosted": false,
+        "username": "",
+        "authorisationToken": ""
     }
 }

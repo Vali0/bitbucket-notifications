@@ -58,7 +58,7 @@ pullRequests.getPullRequests({
 
         let options = {
             transition: {
-                id: 323 // The transition id from your Jira. You can get all possible transitions by making get request to https://{domain}.atlassian.net/rest/api/2/issue/{issueId}/transitions
+                id: 323 // The transition id from your Jira. You can get all possible transitions by making get request to https://{domain}/rest/api/2/issue/{issueId}/transitions
             }
         };
 
