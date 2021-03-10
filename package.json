@@ -39,7 +39,7 @@
   "dependencies": {
     "moment": "^2.22.2",
     "nodemailer": "^6.4.16",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "snyk": "^1.316.1"
